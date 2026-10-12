@@ -1,0 +1,1540 @@
+<!doctype html>
+<html lang="fr" data-theme="ombre">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <title>Ox Inventory</title>
+    <script type="module" crossorigin src="./assets/index.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&family=Rajdhani:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style id="kirito-theme">
+/* =====================================================================
+   Inventaire « Kirito » pour ox_inventory
+   ---------------------------------------------------------------------
+   Le thème se choisit dans server.cfg (voir THEME.md) :
+     setr inventory:theme   "ombre"     -> ombre | verre | liquide | neon | brut | clair
+     setr inventory:accent  "#4F8CFF"   -> couleur principale (vide = celle du thème)
+     setr inventory:couleurlibre "true" -> les joueurs peuvent choisir leur couleur
+     setr inventory:echelle "100"       -> taille de l'interface en % (60 à 140)
+
+   Toutes les tailles utilisent l'unité --u (1 % de la hauteur d'écran sur un écran 16:9),
+   ce qui garde les proportions sur tous les écrans et permet l'échelle réglable.
+   ===================================================================== */
+
+:root {
+  --echelle: 1;
+  --u: calc(min(1vh, 0.5625vw) * var(--echelle));
+
+  /* Mesures de la mise en page */
+  --case: calc(9.4 * var(--u));                    /* côté d'une case */
+  --ecart: calc(0.6 * var(--u));                   /* espace entre deux cases */
+  --grille-l: calc(5 * var(--case) + 4 * var(--ecart));
+  --grille-h: calc(7 * var(--case) + 6 * var(--ecart));
+  --g: calc(2.4 * var(--u));                       /* espace entre les blocs */
+  --esp: calc(1.6 * var(--u));                     /* entre une colonne Tenue et le personnage */
+  --perso: calc(36 * var(--u));                    /* largeur de la fenêtre du personnage */
+  --centre: calc(40 * var(--u));                   /* espace laissé au personnage entre deux grilles */
+  --tenue-l: calc(2 * var(--case) + 2 * var(--esp) + var(--perso));
+  --case-t: calc(8.2 * var(--u));                  /* cases de la Tenue, un peu plus petites */
+  --rail: calc(4.6 * var(--u));                    /* largeur de la barre de filtres verticale */
+  --bande: transparent;                            /* fond du nom en bas des cases */
+
+  /* Couleur principale (remplacée par le script : server.cfg ou choix du joueur) */
+  --accent: #4F8CFF;
+  --accent-rgb: 79, 140, 255;
+  --accent-clair: #84AEFF;
+  --sur-accent: #FFFFFF;
+}
+
+/* ---------------------------------------------------------------------
+   THÈMES — chaque bloc ne fait que régler des variables.
+   Pour créer le vôtre : copiez un bloc, changez son nom et les valeurs,
+   puis ajoutez ce nom dans la liste THEMES du script en bas de page.
+   --------------------------------------------------------------------- */
+
+/* OMBRE : cases carrées gris fumé posées sur le jeu, sans panneau (par défaut) */
+html[data-theme="ombre"] {
+  --police: 'Montserrat', 'Roboto', sans-serif;
+  --police-titre: 'Montserrat', 'Roboto', sans-serif;
+  --casse: uppercase;
+  --texte: #F5F5F7;
+  --texte-2: rgba(255, 255, 255, 0.64);
+  --texte-3: rgba(255, 255, 255, 0.42);
+  --case-fond: rgba(34, 34, 38, 0.52);
+  --case-plein: rgba(44, 44, 50, 0.70);
+  --case-bord: rgba(255, 255, 255, 0.05);
+  --case-rayon: calc(0.9 * var(--u));
+  --case-lueur: 0 0 1.4vh rgba(var(--accent-rgb), 0.3);
+  --tenue-fond: rgba(26, 26, 30, 0.66);
+  --bande: rgba(0, 0, 0, 0.28);
+  --icone: rgba(255, 255, 255, 0.78);
+  --panneau: transparent;
+  --panneau-bord: transparent;
+  --panneau-rayon: 0;
+  --panneau-ombre: none;
+  --pad: 0px;
+  --menu-fond: rgba(18, 18, 21, 0.95);
+  --menu-bord: rgba(255, 255, 255, 0.08);
+  --menu-rayon: calc(0.4 * var(--u));
+  --barre-fond: rgba(255, 255, 255, 0.12);
+  --barre-rayon: 0;
+  --ombre-texte: 0 0.1vh 0.5vh rgba(0, 0, 0, 0.75);
+}
+
+/* VERRE : panneaux givrés translucides, coins très arrondis */
+html[data-theme="verre"] {
+  --police: 'Manrope', 'Roboto', sans-serif;
+  --police-titre: 'Manrope', 'Roboto', sans-serif;
+  --casse: none;
+  --texte: #F4F5F7;
+  --texte-2: rgba(244, 245, 247, 0.66);
+  --texte-3: rgba(244, 245, 247, 0.42);
+  --case-fond: rgba(255, 255, 255, 0.055);
+  --case-plein: rgba(255, 255, 255, 0.11);
+  --case-bord: rgba(255, 255, 255, 0.08);
+  --case-rayon: calc(1.1 * var(--u));
+  --case-lueur: 0 0 1.4vh rgba(var(--accent-rgb), 0.25);
+  --tenue-fond: rgba(18, 20, 26, 0.62);
+  --icone: rgba(255, 255, 255, 0.6);
+  --panneau: linear-gradient(165deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0) 65%), rgba(18, 20, 26, 0.66);
+  --panneau-bord: rgba(255, 255, 255, 0.12);
+  --panneau-rayon: calc(2.2 * var(--u));
+  --panneau-ombre: 0 2.4vh 6vh rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --pad: calc(1.8 * var(--u));
+  --menu-fond: rgba(24, 26, 32, 0.97);
+  --menu-bord: rgba(255, 255, 255, 0.12);
+  --menu-rayon: calc(1.2 * var(--u));
+  --barre-fond: rgba(255, 255, 255, 0.12);
+  --barre-rayon: 99vh;
+  --ombre-texte: none;
+}
+
+/* LIQUIDE : verre liquide — cases translucides épaisses, reflets blancs sur les bords,
+   coins très ronds, liseré irisé en bas. (Sans flou d'arrière-plan : FiveM ne le gère pas.) */
+html[data-theme="liquide"] {
+  --police: 'Inter', 'Manrope', 'Roboto', sans-serif;
+  --police-titre: 'Inter', 'Manrope', 'Roboto', sans-serif;
+  --casse: none;
+  --texte: #FFFFFF;
+  --texte-2: rgba(255, 255, 255, 0.78);
+  --texte-3: rgba(255, 255, 255, 0.55);
+  --case-fond: rgba(96, 100, 112, 0.30);
+  --case-plein: rgba(118, 122, 134, 0.40);
+  --case-bord: rgba(255, 255, 255, 0.16);
+  --case-rayon: calc(1.9 * var(--u));
+  --case-lueur: 0 0 2vh rgba(255, 255, 255, 0.18);
+  --tenue-fond: rgba(96, 100, 112, 0.34);
+  --icone: rgba(255, 255, 255, 0.85);
+  --panneau: transparent;
+  --panneau-bord: transparent;
+  --panneau-rayon: 0;
+  --panneau-ombre: none;
+  --pad: 0px;
+  --menu-fond: rgba(38, 40, 46, 0.95);
+  --menu-bord: rgba(255, 255, 255, 0.22);
+  --menu-rayon: calc(2 * var(--u));
+  --barre-fond: rgba(255, 255, 255, 0.18);
+  --barre-rayon: 99vh;
+  --ombre-texte: 0 0.1vh 0.6vh rgba(0, 0, 0, 0.45);
+  --bande: transparent;
+  /* relief du verre : reflet en haut, bord clair, lueur intérieure en bas, ombre portée */
+  --verre:
+    inset 0 1px 0 rgba(255, 255, 255, 0.60),
+    inset 1px 0 0 rgba(255, 255, 255, 0.22),
+    inset -1px 0 0 rgba(255, 255, 255, 0.10),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 calc(-1.4 * var(--u)) calc(2.6 * var(--u)) rgba(255, 255, 255, 0.07),
+    0 calc(0.8 * var(--u)) calc(2.4 * var(--u)) rgba(0, 0, 0, 0.20);
+  --reflet:
+    linear-gradient(90deg, transparent 18%, rgba(255, 140, 140, 0.55) 34%, rgba(255, 225, 130, 0.55) 46%, rgba(130, 255, 190, 0.55) 58%, rgba(130, 180, 255, 0.6) 72%, transparent 86%) left bottom / 100% 1px no-repeat,
+    linear-gradient(155deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.05) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.06) 100%);
+}
+
+/* NÉON : fond nuit, contours lumineux de la couleur principale */
+html[data-theme="neon"] {
+  --police: 'Rajdhani', 'Roboto', sans-serif;
+  --police-titre: 'Rajdhani', 'Roboto', sans-serif;
+  --casse: uppercase;
+  --texte: #EAF6FF;
+  --texte-2: rgba(234, 246, 255, 0.66);
+  --texte-3: rgba(234, 246, 255, 0.42);
+  --case-fond: rgba(6, 9, 18, 0.66);
+  --case-plein: rgba(9, 14, 28, 0.80);
+  --case-bord: rgba(var(--accent-rgb), 0.24);
+  --case-rayon: calc(0.3 * var(--u));
+  --case-lueur: 0 0 1.6vh rgba(var(--accent-rgb), 0.45);
+  --tenue-fond: rgba(6, 9, 18, 0.72);
+  --icone: var(--accent-clair);
+  --panneau: transparent;
+  --panneau-bord: transparent;
+  --panneau-rayon: 0;
+  --panneau-ombre: none;
+  --pad: 0px;
+  --menu-fond: rgba(6, 9, 18, 0.96);
+  --menu-bord: rgba(var(--accent-rgb), 0.38);
+  --menu-rayon: calc(0.3 * var(--u));
+  --barre-fond: rgba(var(--accent-rgb), 0.16);
+  --barre-rayon: 0;
+  --ombre-texte: 0 0 1vh rgba(var(--accent-rgb), 0.5);
+}
+
+/* BRUT : panneaux noirs pleins, angles vifs, typographie condensée */
+html[data-theme="brut"] {
+  --police: 'Barlow', 'Roboto', sans-serif;
+  --police-titre: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --casse: uppercase;
+  --texte: #F0F0F2;
+  --texte-2: rgba(240, 240, 242, 0.62);
+  --texte-3: rgba(240, 240, 242, 0.40);
+  --case-fond: rgba(255, 255, 255, 0.035);
+  --case-plein: rgba(255, 255, 255, 0.075);
+  --case-bord: rgba(255, 255, 255, 0.07);
+  --case-rayon: 0;
+  --case-lueur: 0 0 0 transparent;
+  --tenue-fond: rgba(12, 12, 14, 0.9);
+  --icone: rgba(255, 255, 255, 0.5);
+  --panneau: rgba(12, 12, 14, 0.92);
+  --panneau-bord: rgba(255, 255, 255, 0.09);
+  --panneau-rayon: calc(0.2 * var(--u));
+  --panneau-ombre: inset 0 0.35vh 0 var(--accent);
+  --pad: calc(2 * var(--u));
+  --menu-fond: rgba(12, 12, 14, 0.97);
+  --menu-bord: rgba(255, 255, 255, 0.14);
+  --menu-rayon: calc(0.2 * var(--u));
+  --barre-fond: rgba(255, 255, 255, 0.1);
+  --barre-rayon: 0;
+  --ombre-texte: none;
+}
+
+/* CLAIR : cases blanches laiteuses, textes sombres */
+html[data-theme="clair"] {
+  --police: 'Manrope', 'Roboto', sans-serif;
+  --police-titre: 'Manrope', 'Roboto', sans-serif;
+  --casse: none;
+  --texte: #15171C;
+  --texte-2: rgba(21, 23, 28, 0.62);
+  --texte-3: rgba(21, 23, 28, 0.45);
+  --case-fond: rgba(246, 247, 250, 0.62);
+  --case-plein: rgba(255, 255, 255, 0.84);
+  --case-bord: rgba(0, 0, 0, 0.06);
+  --case-rayon: calc(0.8 * var(--u));
+  --case-lueur: 0 0.6vh 1.6vh rgba(0, 0, 0, 0.18);
+  --tenue-fond: rgba(246, 247, 250, 0.74);
+  --icone: rgba(21, 23, 28, 0.55);
+  --panneau: transparent;
+  --panneau-bord: transparent;
+  --panneau-rayon: 0;
+  --panneau-ombre: none;
+  --pad: 0px;
+  --menu-fond: rgba(250, 250, 252, 0.98);
+  --menu-bord: rgba(0, 0, 0, 0.08);
+  --menu-rayon: calc(0.8 * var(--u));
+  --barre-fond: rgba(255, 255, 255, 0.5);
+  --barre-rayon: 99vh;
+  --ombre-texte: none;
+}
+
+/* Les images des vêtements sont blanches : on les assombrit sur les cases claires */
+html[data-theme="clair"] .inventory-slot[style*="/vet_"] {
+  background-blend-mode: difference;
+}
+
+/* =====================================================================
+   BASE COMMUNE À TOUS LES THÈMES
+   ===================================================================== */
+
+body, p, input, button {
+  font-family: var(--police) !important;
+}
+
+/* ---------- Disposition générale ----------
+   Avec un coffre / le sol : Poches | personnage | Coffre
+   Avec la Tenue          : Poches | colonne | personnage | colonne
+   Le personnage reste au centre de l'écran dans les deux cas. */
+
+.inventory-wrapper {
+  gap: var(--g) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 calc(var(--rail) + 1.2 * var(--u)) calc(6 * var(--u));
+  box-sizing: border-box;
+}
+
+html.avec-droite:not(.avec-tenue) .inventory-wrapper {
+  column-gap: var(--centre) !important;
+}
+
+html.avec-tenue .inventory-wrapper {
+  padding-right: 0;
+}
+
+html.avec-tenue .inventory-wrapper > .tenue-mode {
+  /* espace vide à droite, presque de la largeur des poches : garde le personnage vers le centre */
+  margin-right: calc(var(--grille-l) + 2 * var(--pad) + var(--g) - var(--rail));
+}
+
+/* ---------- Panneaux ---------- */
+
+.inventory-grid-wrapper {
+  gap: calc(1 * var(--u)) !important;
+  padding: var(--pad);
+  background: var(--panneau);
+  border: 1px solid var(--panneau-bord);
+  border-radius: var(--panneau-rayon);
+  box-shadow: var(--panneau-ombre);
+}
+
+/* En-tête : nom à droite, poids ; les filtres (script) se placent à gauche */
+.inventory-grid-header-wrapper {
+  justify-content: space-between !important;
+  align-items: center;
+  gap: calc(1.2 * var(--u));
+  min-height: calc(4.2 * var(--u));
+}
+
+.inventory-grid-header-wrapper p {
+  text-shadow: var(--ombre-texte);
+}
+
+.inventory-grid-header-wrapper p:first-child {
+  max-width: calc(32 * var(--u));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: calc(1.2 * var(--u));
+  border-left: calc(0.35 * var(--u)) solid var(--accent);
+  font-family: var(--police-titre) !important;
+  font-size: calc(2.1 * var(--u)) !important;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  text-transform: var(--casse);
+  color: var(--texte);
+}
+
+.inventory-grid-header-wrapper p:last-child {
+  padding: calc(0.5 * var(--u)) calc(1 * var(--u));
+  border-radius: 99vh;
+  background: var(--case-fond);
+  font-size: calc(1.25 * var(--u)) !important;
+  font-weight: 700;
+  color: var(--texte-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.weight-bar {
+  height: calc(0.35 * var(--u)) !important;
+  margin-top: calc(0.6 * var(--u));
+  border: 0 !important;
+  border-radius: var(--barre-rayon) !important;
+  background: var(--barre-fond) !important;
+}
+
+.weight-bar > div {
+  background-color: var(--accent) !important;
+  border-radius: var(--barre-rayon);
+}
+
+/* Le sol (« Sol » ou « Drop 12345 ») s'affiche « Par terre ».
+   Classe doublée : plus forte que la règle de taille du titre ci-dessus. */
+.panneau-sol.panneau-sol .inventory-grid-header-wrapper p:first-child {
+  font-size: 0 !important;
+}
+
+.panneau-sol .inventory-grid-header-wrapper p:first-child::after {
+  content: "Par terre";
+  font-size: calc(2.1 * var(--u));
+}
+
+/* ---------- Grille ---------- */
+
+.inventory-grid-container {
+  grid-template-columns: repeat(5, var(--case)) !important;
+  grid-auto-rows: var(--case) !important;
+  gap: var(--ecart) !important;
+  height: var(--grille-h) !important;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2 * var(--u)), transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 calc(100% - 2 * var(--u)), transparent 100%);
+}
+
+/* ---------- Cases ---------- */
+
+.inventory-slot,
+.hotbar-item-slot,
+.item-notification-item-box {
+  border: 0 !important;
+  border-radius: var(--case-rayon) !important;
+  background-color: var(--case-fond) !important;
+  background-size: 56% !important;
+  background-position: center 44% !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  color: var(--texte) !important;
+  overflow: hidden;
+  transition: box-shadow 0.15s, background-color 0.15s, opacity 0.2s, filter 0.2s;
+}
+
+.inventory-slot:not([style*='url("none")']) {
+  background-color: var(--case-plein) !important;
+}
+
+.inventory-slot:hover {
+  box-shadow: inset 0 0 0 calc(0.18 * var(--u)) var(--accent), var(--case-lueur) !important;
+}
+
+/* Raccourcis 1 à 5 (premières cases des poches) : liseré + petit numéro quand la case est vide */
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(-n+5) {
+  box-shadow: inset 0 calc(-0.3 * var(--u)) 0 rgba(var(--accent-rgb), 0.85), inset 0 0 0 1px var(--case-bord);
+}
+
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(-n+5)[style*='url("none")']::after {
+  position: absolute;
+  left: calc(0.8 * var(--u));
+  top: calc(0.6 * var(--u));
+  font-family: var(--police-titre);
+  font-size: calc(1.35 * var(--u));
+  font-weight: 800;
+  color: var(--texte-3);
+  pointer-events: none;
+}
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(1)[style*='url("none")']::after { content: "1"; }
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(2)[style*='url("none")']::after { content: "2"; }
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(3)[style*='url("none")']::after { content: "3"; }
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(4)[style*='url("none")']::after { content: "4"; }
+.inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(5)[style*='url("none")']::after { content: "5"; }
+
+.inventory-slot-number {
+  height: auto !important;
+  padding: calc(0.5 * var(--u)) calc(0.7 * var(--u)) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--accent-clair) !important;
+  font-family: var(--police-titre) !important;
+  font-size: calc(1.4 * var(--u)) !important;
+  font-weight: 800;
+}
+
+.item-slot-info-wrapper {
+  padding: calc(0.5 * var(--u)) calc(0.7 * var(--u)) !important;
+  gap: calc(0.5 * var(--u)) !important;
+}
+
+.item-slot-info-wrapper p {
+  font-size: calc(1.1 * var(--u)) !important;
+  font-weight: 700;
+  color: var(--texte);
+  font-variant-numeric: tabular-nums;
+}
+
+.item-slot-info-wrapper p:first-child {
+  font-weight: 500;
+  color: var(--texte-3);
+}
+
+.inventory-slot-label-box {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--bande) !important;
+}
+
+.inventory-slot-label-text {
+  padding: calc(0.45 * var(--u)) calc(0.5 * var(--u)) !important;
+  font-family: var(--police) !important;
+  font-size: calc(1.1 * var(--u)) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: var(--casse) !important;
+  color: var(--texte-2) !important;
+}
+
+.durability-bar {
+  height: calc(0.3 * var(--u)) !important;
+  background: var(--barre-fond) !important;
+}
+
+/* ---------- Filtres (Tout / Armes / Vêtements / Divers) ----------
+   Le nom de l'objet est lu dans l'adresse de son image : WEAPON_*, ammo-*, at_* = armes ; vet_* = vêtements. */
+
+html[data-filtre-g="armes"] .inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:not([style*="/WEAPON_"]):not([style*="/ammo-"]):not([style*="/at_"]),
+html[data-filtre-d="armes"] .inventory-wrapper > .inventory-grid-wrapper:not(:first-child):not(.tenue-mode) .inventory-slot:not([style*="/WEAPON_"]):not([style*="/ammo-"]):not([style*="/at_"]),
+html[data-filtre-g="vetements"] .inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:not([style*="/vet_"]),
+html[data-filtre-d="vetements"] .inventory-wrapper > .inventory-grid-wrapper:not(:first-child):not(.tenue-mode) .inventory-slot:not([style*="/vet_"]),
+html[data-filtre-g="divers"] .inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:is([style*='url("none")'], [style*="/WEAPON_"], [style*="/ammo-"], [style*="/at_"], [style*="/vet_"]),
+html[data-filtre-d="divers"] .inventory-wrapper > .inventory-grid-wrapper:not(:first-child):not(.tenue-mode) .inventory-slot:is([style*='url("none")'], [style*="/WEAPON_"], [style*="/ammo-"], [style*="/at_"], [style*="/vet_"]) {
+  opacity: 0.22;
+  filter: grayscale(1);
+}
+
+/* ---------- Barres d'outils (ajoutées par le script) ---------- */
+
+.kt-barre {
+  display: none;
+  position: fixed;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(0.4 * var(--u));
+  padding: calc(0.4 * var(--u));
+  border-radius: calc(var(--case-rayon) + 0.4 * var(--u));
+  background: var(--case-fond);
+  box-shadow: inset 0 0 0 1px var(--case-bord);
+  z-index: 30;
+}
+
+.kt-barre::before {
+  content: "";
+  width: calc(1.6 * var(--u));
+  height: calc(0.3 * var(--u));
+  margin: calc(0.6 * var(--u)) 0 calc(0.8 * var(--u));
+  border-radius: 99vh;
+  background: var(--accent);
+}
+
+html.dc-ouvert .kt-barre.visible {
+  display: flex;
+}
+
+.kt-barre button {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.kt-barre button,
+#kt-couleur > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(3.8 * var(--u));
+  height: calc(3.8 * var(--u));
+  padding: 0;
+  border: 0;
+  border-radius: var(--case-rayon);
+  background: var(--case-fond);
+  box-shadow: inset 0 0 0 1px var(--case-bord);
+  color: var(--texte-2);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.kt-barre button svg {
+  width: 52%;
+  height: 52%;
+}
+
+.kt-barre button:hover {
+  color: var(--texte);
+  background: var(--case-plein);
+}
+
+.kt-barre button.actif {
+  background: rgba(var(--accent-rgb), 0.9) !important;
+  box-shadow: none;
+  color: var(--sur-accent);
+}
+
+/* ---------- Onglets « Tenue | Par terre » (au-dessus du personnage) ---------- */
+
+#kt-onglets {
+  display: none;
+  position: fixed;
+  align-items: center;
+  transform: translateX(-50%);
+  z-index: 30;
+}
+
+html.dc-ouvert.avec-tenue #kt-onglets,
+html.dc-ouvert.avec-sol #kt-onglets {
+  display: flex;
+}
+
+#kt-onglets .kt-piste {
+  display: flex;
+  gap: calc(0.4 * var(--u));
+  padding: calc(0.4 * var(--u));
+  border-radius: calc(var(--case-rayon) + 0.4 * var(--u));
+  background: var(--case-fond);
+  box-shadow: inset 0 0 0 1px var(--case-bord);
+}
+
+#kt-onglets button {
+  display: flex;
+  align-items: center;
+  gap: calc(0.8 * var(--u));
+  height: calc(3.4 * var(--u));
+  padding: 0 calc(1.8 * var(--u));
+  border: 0;
+  border-radius: var(--case-rayon);
+  background: transparent;
+  color: var(--texte-2);
+  font-family: var(--police-titre);
+  font-size: calc(1.3 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: var(--casse);
+  cursor: pointer;
+}
+
+#kt-onglets button:hover {
+  color: var(--texte);
+}
+
+#kt-onglets button.actif {
+  background: var(--accent);
+  color: var(--sur-accent);
+  cursor: default;
+}
+
+#kt-onglets button .kt-compte {
+  font-size: calc(1.1 * var(--u));
+  font-weight: 600;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Panneau « Tenue » (cfx_ts_vetements) ----------
+   Deux colonnes de cases de part et d'autre du personnage.
+   Case i = catégorie i de Config.Categories (même ordre). */
+
+.inventory-wrapper > .tenue-mode {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* même hauteur d'en-tête que les poches, pour aligner les cases */
+.tenue-mode .inventory-grid-header-wrapper,
+.tenue-mode .weight-bar,
+.tenue-mode .weight-bar * {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.tenue-mode .inventory-grid-container {
+  display: block !important;
+  position: relative;
+  width: var(--tenue-l);
+  height: var(--grille-h) !important;
+  overflow: visible !important;
+  -webkit-mask-image: none !important;
+          mask-image: none !important;
+}
+
+/* Cases de la Tenue : carrés sombres, icône au trait, sans texte (le nom apparaît au survol) */
+.tenue-mode .inventory-slot {
+  position: absolute !important;
+  width: var(--case-t) !important;
+  height: var(--case-t) !important;
+  overflow: visible !important;
+  border-radius: var(--case-rayon) !important;
+  background-color: var(--tenue-fond) !important;
+  background-size: 58% !important;
+  background-position: center !important;
+}
+
+.tenue-mode .inventory-slot-label-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent !important;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.tenue-mode .inventory-slot:hover .inventory-slot-label-box {
+  opacity: 1;
+}
+
+/* Pièce portée : contour lumineux */
+.tenue-mode .inventory-slot:not([style*='url("none")']) {
+  box-shadow: inset 0 0 0 calc(0.15 * var(--u)) rgba(var(--accent-rgb), 0.85), 0 0 1.6vh rgba(var(--accent-rgb), 0.22);
+}
+
+.tenue-mode .item-slot-info-wrapper,
+.tenue-mode .inventory-slot-number,
+.tenue-mode .durability-bar {
+  display: none !important;
+}
+
+.tenue-mode .inventory-slot-label-text {
+  font-size: calc(0.9 * var(--u)) !important;
+  letter-spacing: 0 !important;
+  text-shadow: 0 0.1vh 0.4vh rgba(0, 0, 0, 0.8);
+}
+
+/* Case vide : grande icône au trait, centrée */
+.tenue-mode .inventory-slot[style*='url("none")']::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 2.3 * var(--u));
+  top: calc(50% - 2.3 * var(--u));
+  width: calc(4.6 * var(--u));
+  height: calc(4.6 * var(--u));
+  background-color: var(--icone);
+  pointer-events: none;
+  transition: transform 0.15s;
+}
+
+.tenue-mode .inventory-slot[style*='url("none")']:hover::before {
+  transform: translateY(calc(-0.8 * var(--u)));
+}
+
+/* Nom de l'emplacement : seulement au survol */
+.tenue-mode .inventory-slot[style*='url("none")']::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(0.6 * var(--u));
+  text-align: center;
+  font-family: var(--police);
+  font-size: calc(0.9 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: var(--casse);
+  color: var(--texte-2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.tenue-mode .inventory-slot[style*='url("none")']:hover::after {
+  opacity: 1;
+}
+
+/* Case « Tenue complète » (en bas) : contour en pointillés, on y dépose un objet Tenue */
+.tenue-mode .inventory-slot:nth-child(14) {
+  background-color: transparent !important;
+  box-shadow: inset 0 0 0 calc(0.15 * var(--u)) rgba(var(--accent-rgb), 0.55);
+  outline: 1px dashed rgba(255, 255, 255, 0.18);
+  outline-offset: calc(-0.6 * var(--u));
+}
+
+/* Emplacement des 14 cases (généré) : gauche = vêtements, droite = accessoires, en bas = sac + tenue complète.
+   nth-child(i) = catégorie i de Config.Categories ; 14 = case « Tenue complète ». Changez left / top pour déplacer une case. */
+.tenue-mode .inventory-slot:nth-child(1) { left: calc((var(--case) - var(--case-t)) / 2); top: calc(0 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(1)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4 14.6C4 9.9 7.6 6.6 12 6.6s8 3.3 8 8 M4 14.6h8.6c3.9 0 6.9.6 8.9 2.1-1.8.9-4.9 1.1-8.4.8 M12 6.6V5.3 M12 6.6c-1.6 2.1-2.3 4.7-2.3 8%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4 14.6C4 9.9 7.6 6.6 12 6.6s8 3.3 8 8 M4 14.6h8.6c3.9 0 6.9.6 8.9 2.1-1.8.9-4.9 1.1-8.4.8 M12 6.6V5.3 M12 6.6c-1.6 2.1-2.3 4.7-2.3 8%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(1)[style*='url("none")']::after { content: "Chapeau"; }
+.tenue-mode .inventory-slot:nth-child(2) { left: calc(var(--case) + 2 * var(--esp) + var(--perso) + (var(--case) - var(--case-t)) / 2); top: calc(1 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(2)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M2.8 9h18.4 M3.4 9l.9 4.3c.4 1.7 5 1.7 5.6 0L10.6 9 M13.4 9l.7 4.3c.4 1.7 5 1.7 5.6 0L20.6 9 M10.6 10.6h2.8%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M2.8 9h18.4 M3.4 9l.9 4.3c.4 1.7 5 1.7 5.6 0L10.6 9 M13.4 9l.7 4.3c.4 1.7 5 1.7 5.6 0L20.6 9 M10.6 10.6h2.8%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(2)[style*='url("none")']::after { content: "Lunettes"; }
+.tenue-mode .inventory-slot:nth-child(3) { left: calc(var(--case) + 2 * var(--esp) + var(--perso) + (var(--case) - var(--case-t)) / 2); top: calc(2 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(3)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M7 3v2.6 M7 5.6c-2.4 3-3 5.4-3 7.5a3 3 0 0 0 6 0c0-2.1-.6-4.5-3-7.5z M17 3v2.6 M17 5.6c-2.4 3-3 5.4-3 7.5a3 3 0 0 0 6 0c0-2.1-.6-4.5-3-7.5z M7 13.5v1.2 M17 13.5v1.2%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M7 3v2.6 M7 5.6c-2.4 3-3 5.4-3 7.5a3 3 0 0 0 6 0c0-2.1-.6-4.5-3-7.5z M17 3v2.6 M17 5.6c-2.4 3-3 5.4-3 7.5a3 3 0 0 0 6 0c0-2.1-.6-4.5-3-7.5z M7 13.5v1.2 M17 13.5v1.2%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(3)[style*='url("none")']::after { content: "Oreilles"; }
+.tenue-mode .inventory-slot:nth-child(4) { left: calc(var(--case) + 2 * var(--esp) + var(--perso) + (var(--case) - var(--case-t)) / 2); top: calc(0 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(4)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4 9c3.2-2 12.8-2 16 0v4c-1 3.4-4.4 5-8 5s-7-1.6-8-5z M4 10.2H2.6c-.4 2.2.6 4 2.6 4.4 M20 10.2h1.4c.4 2.2-.6 4-2.6 4.4 M7.2 11.2h9.6 M7.6 14h8.8%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4 9c3.2-2 12.8-2 16 0v4c-1 3.4-4.4 5-8 5s-7-1.6-8-5z M4 10.2H2.6c-.4 2.2.6 4 2.6 4.4 M20 10.2h1.4c.4 2.2-.6 4-2.6 4.4 M7.2 11.2h9.6 M7.6 14h8.8%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(4)[style*='url("none")']::after { content: "Masque"; }
+.tenue-mode .inventory-slot:nth-child(5) { left: calc(var(--case) + 2 * var(--esp) + var(--perso) + (var(--case) - var(--case-t)) / 2); top: calc(3 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(5)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4.8 3.2c0 6.2 3.1 10.3 7.2 10.3s7.2-4.1 7.2-10.3 M6.4 7.5l.9-.4 M8.2 10.6l.8-.6 M15.8 10.6l-.8-.6 M17.6 7.5l-.9-.4 M12 13.5v2 M10.4 15.5h3.2v3.6h-3.2z%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M4.8 3.2c0 6.2 3.1 10.3 7.2 10.3s7.2-4.1 7.2-10.3 M6.4 7.5l.9-.4 M8.2 10.6l.8-.6 M15.8 10.6l-.8-.6 M17.6 7.5l-.9-.4 M12 13.5v2 M10.4 15.5h3.2v3.6h-3.2z%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(5)[style*='url("none")']::after { content: "Chaîne"; }
+.tenue-mode .inventory-slot:nth-child(6) { left: calc((var(--case) - var(--case-t)) / 2); top: calc(2 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(6)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M8.5 3.5 4.8 5.2 3.3 9.3V20.5h17.4V9.3l-1.5-4.1-3.7-1.7 M8.5 3.5 12 7.2l3.5-3.7 M12 7.2v13.3 M6.8 11v9.5 M17.2 11v9.5 M3.3 17.5h3.5 M17.2 17.5h3.5%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M8.5 3.5 4.8 5.2 3.3 9.3V20.5h17.4V9.3l-1.5-4.1-3.7-1.7 M8.5 3.5 12 7.2l3.5-3.7 M12 7.2v13.3 M6.8 11v9.5 M17.2 11v9.5 M3.3 17.5h3.5 M17.2 17.5h3.5%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(6)[style*='url("none")']::after { content: "Veste"; }
+.tenue-mode .inventory-slot:nth-child(7) { left: calc((var(--case) - var(--case-t)) / 2); top: calc(1 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(7)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M8.3 3.8 4.2 6.2 2.5 10.6l3.1 1.3L7 10.3V20.5h10V10.3l1.4 1.6 3.1-1.3-1.7-4.4-4.1-2.4 M8.3 3.8l3.7 4.4 3.7-4.4 M12 8.2v3.6 M11.2 9.4h1.6%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M8.3 3.8 4.2 6.2 2.5 10.6l3.1 1.3L7 10.3V20.5h10V10.3l1.4 1.6 3.1-1.3-1.7-4.4-4.1-2.4 M8.3 3.8l3.7 4.4 3.7-4.4 M12 8.2v3.6 M11.2 9.4h1.6%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(7)[style*='url("none")']::after { content: "T-shirt"; }
+.tenue-mode .inventory-slot:nth-child(8) { left: calc((var(--case) - var(--case-t)) / 2); top: calc(3 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(8)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M8.2 3h2.3v3.2h3V3h2.3l.9 4.1 1.8 1.2v12.2H5.5V8.3l1.8-1.2z M5.5 11.8h13 M7.8 14.2h3.4v3.3H7.8z M12.8 14.2h3.4v3.3h-3.4z M5.5 20.5h13%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M8.2 3h2.3v3.2h3V3h2.3l.9 4.1 1.8 1.2v12.2H5.5V8.3l1.8-1.2z M5.5 11.8h13 M7.8 14.2h3.4v3.3H7.8z M12.8 14.2h3.4v3.3h-3.4z M5.5 20.5h13%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(8)[style*='url("none")']::after { content: "Gilet"; }
+.tenue-mode .inventory-slot:nth-child(9) { left: calc(var(--case) + var(--esp) + var(--perso) / 2 - var(--case-t) - 0.6 * var(--u)); top: calc(6 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(9)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M3 10.6C3 9.1 4 8.1 5.5 8.1h13c1.5 0 2.5 1 2.5 2.5v7.4c0 .8-.7 1.5-1.5 1.5h-15c-.8 0-1.5-.7-1.5-1.5z M8.6 8.1V6.6c0-.8.7-1.5 1.5-1.5h3.8c.8 0 1.5.7 1.5 1.5v1.5 M3 13.2h18 M10.2 13.2v2h3.6v-2 M6 8.1v11.4 M18 8.1v11.4%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M3 10.6C3 9.1 4 8.1 5.5 8.1h13c1.5 0 2.5 1 2.5 2.5v7.4c0 .8-.7 1.5-1.5 1.5h-15c-.8 0-1.5-.7-1.5-1.5z M8.6 8.1V6.6c0-.8.7-1.5 1.5-1.5h3.8c.8 0 1.5.7 1.5 1.5v1.5 M3 13.2h18 M10.2 13.2v2h3.6v-2 M6 8.1v11.4 M18 8.1v11.4%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(9)[style*='url("none")']::after { content: "Sac"; }
+.tenue-mode .inventory-slot:nth-child(10) { left: calc(var(--case) + 2 * var(--esp) + var(--perso) + (var(--case) - var(--case-t)) / 2); top: calc(4 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(10)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M9 3h6l.6 4.2 M9 3l-.6 4.2 M9 21h6l.6-4.2 M9 21l-.6-4.2 M6.5 12a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0 -11 0 M12 9.3V12l1.9 1.3 M17.5 11.2h1.3v1.6h-1.3%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M9 3h6l.6 4.2 M9 3l-.6 4.2 M9 21h6l.6-4.2 M9 21l-.6-4.2 M6.5 12a5.5 5.5 0 1 0 11 0a5.5 5.5 0 1 0 -11 0 M12 9.3V12l1.9 1.3 M17.5 11.2h1.3v1.6h-1.3%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(10)[style*='url("none")']::after { content: "Montre"; }
+.tenue-mode .inventory-slot:nth-child(11) { left: calc(var(--case) + 2 * var(--esp) + var(--perso) + (var(--case) - var(--case-t)) / 2); top: calc(5 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(11)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M19.70 12.00a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M18.52 15.64a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M15.42 17.90a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M11.58 17.90a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M8.48 15.64a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M7.30 12.00a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M8.48 8.36a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M11.58 6.10a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M15.42 6.10a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M18.52 8.36a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M19.70 12.00a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M18.52 15.64a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M15.42 17.90a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M11.58 17.90a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M8.48 15.64a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M7.30 12.00a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M8.48 8.36a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M11.58 6.10a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M15.42 6.10a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0 M18.52 8.36a1.5 1.5 0 1 0 -3 0a1.5 1.5 0 1 0 3 0%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(11)[style*='url("none")']::after { content: "Bracelet"; }
+.tenue-mode .inventory-slot:nth-child(12) { left: calc((var(--case) - var(--case-t)) / 2); top: calc(4 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(12)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M7 3h10l1 18h-4.3L12 10.2 10.3 21H6z M7 6.3h10 M12 3v3.3 M8.6 6.3 8.4 8.8 M15.4 6.3l.2 2.5%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M7 3h10l1 18h-4.3L12 10.2 10.3 21H6z M7 6.3h10 M12 3v3.3 M8.6 6.3 8.4 8.8 M15.4 6.3l.2 2.5%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(12)[style*='url("none")']::after { content: "Pantalon"; }
+.tenue-mode .inventory-slot:nth-child(13) { left: calc((var(--case) - var(--case-t)) / 2); top: calc(5 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(13)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M2.5 16.8v-3.6l3.2-1.1 2-3.3 2.2 1.6h2.6l8.5 4.1v2.3z M2.5 18.6h19 M9.2 11.9l1.2 1.3 M11.3 11.5l1.1 1.4 M14.3 13l.9 1.1 M5.2 15h3.4%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M2.5 16.8v-3.6l3.2-1.1 2-3.3 2.2 1.6h2.6l8.5 4.1v2.3z M2.5 18.6h19 M9.2 11.9l1.2 1.3 M11.3 11.5l1.1 1.4 M14.3 13l.9 1.1 M5.2 15h3.4%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(13)[style*='url("none")']::after { content: "Chaussures"; }
+.tenue-mode .inventory-slot:nth-child(14) { left: calc(var(--case) + var(--esp) + var(--perso) / 2 + 0.6 * var(--u)); top: calc(6 * (var(--case) + var(--ecart)) + (var(--case) - var(--case-t)) / 2); }
+.tenue-mode .inventory-slot:nth-child(14)[style*='url("none")']::before { -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M12 3.3a1.4 1.4 0 1 1 1.4 1.4c-.8 0-1.4.6-1.4 1.4v1.2 M12 7.3 3.6 11.6h16.8z M8.2 11.6 6.7 13.2l1.1 1.5 1-.9V20.5h6.4v-6.7l1 .9 1.1-1.5-1.5-1.6 M10.4 11.6 12 13.4l1.6-1.8%27/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23000%27 stroke-width=%271.35%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M12 3.3a1.4 1.4 0 1 1 1.4 1.4c-.8 0-1.4.6-1.4 1.4v1.2 M12 7.3 3.6 11.6h16.8z M8.2 11.6 6.7 13.2l1.1 1.5 1-.9V20.5h6.4v-6.7l1 .9 1.1-1.5-1.5-1.6 M10.4 11.6 12 13.4l1.6-1.8%27/%3E%3C/svg%3E") center / contain no-repeat; }
+.tenue-mode .inventory-slot:nth-child(14)[style*='url("none")']::after { content: "Tenue complète"; }
+
+/* ---------- Barre du bas : quantité et actions ---------- */
+
+.inventory-control {
+  position: fixed !important;
+  left: 50%;
+  bottom: calc(3 * var(--u));
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.inventory-control .inventory-control-wrapper {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: calc(0.6 * var(--u)) !important;
+  padding: calc(0.6 * var(--u));
+  border-radius: calc(var(--case-rayon) + 0.6 * var(--u));
+  background: var(--case-fond);
+  box-shadow: inset 0 0 0 1px var(--case-bord);
+}
+
+.inventory-control .inventory-control-wrapper::before {
+  content: "";
+  width: calc(3.2 * var(--u));
+  height: calc(4.4 * var(--u));
+  background-color: var(--texte-2);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m8 9 4-4 4 4 M8 15l4 4 4-4'/%3E%3C/svg%3E") center / 55% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m8 9 4-4 4 4 M8 15l4 4 4-4'/%3E%3C/svg%3E") center / 55% no-repeat;
+}
+
+.inventory-control .inventory-control-input {
+  width: calc(10 * var(--u));
+  height: calc(4.4 * var(--u));
+  box-sizing: border-box;
+  padding: 0 calc(1 * var(--u)) !important;
+  border: 0 !important;
+  border-radius: var(--case-rayon) !important;
+  background: var(--case-plein) !important;
+  color: var(--texte) !important;
+  font-size: calc(1.8 * var(--u)) !important;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.inventory-control .inventory-control-input:focus-within {
+  box-shadow: inset 0 0 0 calc(0.18 * var(--u)) var(--accent);
+}
+
+.inventory-control .inventory-control-button {
+  width: auto !important;
+  height: calc(4.4 * var(--u));
+  padding: 0 calc(2 * var(--u)) !important;
+  border: 0 !important;
+  border-radius: var(--case-rayon) !important;
+  background: transparent !important;
+  color: var(--texte-2) !important;
+  font-family: var(--police-titre) !important;
+  font-size: calc(1.35 * var(--u)) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
+  text-transform: var(--casse) !important;
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.inventory-control .inventory-control-button:hover {
+  background: var(--case-plein) !important;
+  color: var(--texte) !important;
+}
+
+/* « Utiliser » = bouton principal */
+.inventory-control .inventory-control-button:nth-of-type(1) {
+  background: var(--accent) !important;
+  color: var(--sur-accent) !important;
+}
+
+.inventory-control .inventory-control-button:nth-of-type(1):hover {
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: none !important;
+}
+
+/* Pastille « couleur » à droite de la barre du bas (si autorisée dans server.cfg) */
+#kt-couleur {
+  display: none;
+  position: fixed;
+  z-index: 25;
+}
+
+html.dc-ouvert.couleur-libre #kt-couleur {
+  display: block;
+}
+
+#kt-couleur > button {
+  width: calc(5.6 * var(--u));
+  height: calc(5.6 * var(--u));
+  border-radius: calc(var(--case-rayon) + 0.6 * var(--u));
+}
+
+#kt-couleur > button i {
+  width: calc(1.8 * var(--u));
+  height: calc(1.8 * var(--u));
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 calc(0.3 * var(--u)) rgba(var(--accent-rgb), 0.3);
+}
+
+#kt-palette {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 1 * var(--u));
+  width: calc(25 * var(--u));
+  padding: calc(1.4 * var(--u));
+  box-sizing: border-box;
+  border: 1px solid var(--menu-bord);
+  border-radius: var(--menu-rayon);
+  background: var(--menu-fond);
+  box-shadow: 0 1.5vh 4vh rgba(0, 0, 0, 0.45);
+}
+
+#kt-palette.ouverte {
+  display: block;
+}
+
+#kt-palette .kt-titre {
+  margin-bottom: calc(1 * var(--u));
+  font-size: calc(1.1 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texte-3);
+}
+
+#kt-palette .kt-nuancier {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: calc(0.7 * var(--u));
+  margin-bottom: calc(1.2 * var(--u));
+}
+
+#kt-palette .kt-nuancier button {
+  height: calc(3.4 * var(--u));
+  border: 0;
+  border-radius: var(--case-rayon);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+#kt-palette .kt-nuancier button.actif {
+  box-shadow: 0 0 0 2px var(--menu-fond), 0 0 0 calc(0.35 * var(--u)) var(--texte);
+}
+
+#kt-palette .kt-reinit {
+  width: 100%;
+  height: calc(3.6 * var(--u));
+  border: 1px solid var(--menu-bord);
+  border-radius: var(--case-rayon);
+  background: transparent;
+  color: var(--texte);
+  font-size: calc(1.25 * var(--u));
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#kt-palette .kt-reinit:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- Infobulle, menu clic droit, aide ---------- */
+
+.tooltip-wrapper {
+  width: calc(26 * var(--u)) !important;
+  min-width: 0 !important;
+  padding: calc(1.4 * var(--u)) !important;
+  box-sizing: border-box;
+  border: 1px solid var(--menu-bord) !important;
+  border-radius: var(--menu-rayon) !important;
+  background: var(--menu-fond) !important;
+  box-shadow: 0 1.6vh 4vh rgba(0, 0, 0, 0.45), inset 0 calc(0.3 * var(--u)) 0 var(--accent);
+  color: var(--texte-2) !important;
+}
+
+.tooltip-header-wrapper p {
+  font-family: var(--police-titre) !important;
+  font-size: calc(1.7 * var(--u)) !important;
+  font-weight: 700 !important;
+  text-transform: var(--casse);
+  color: var(--texte);
+}
+
+.tooltip-wrapper p {
+  font-size: calc(1.25 * var(--u)) !important;
+  line-height: 1.5;
+}
+
+.tooltip-wrapper .divider {
+  margin: calc(0.8 * var(--u)) 0;
+  background: var(--menu-bord) !important;
+}
+
+.tooltip-markdown strong {
+  color: var(--texte);
+}
+
+.context-menu-list {
+  padding: calc(0.5 * var(--u)) !important;
+  border: 1px solid var(--menu-bord) !important;
+  border-radius: var(--menu-rayon) !important;
+  background: var(--menu-fond) !important;
+  box-shadow: 0 1.6vh 4vh rgba(0, 0, 0, 0.45);
+}
+
+.context-menu-item {
+  border-radius: var(--case-rayon) !important;
+  color: var(--texte) !important;
+  font-family: var(--police) !important;
+  font-size: calc(1.35 * var(--u)) !important;
+  font-weight: 600;
+  text-transform: var(--casse);
+}
+
+.context-menu-item:hover {
+  background-color: rgba(var(--accent-rgb), 0.18) !important;
+  color: var(--accent-clair) !important;
+}
+
+html[data-theme="clair"] .context-menu-item:hover {
+  color: var(--accent) !important;
+}
+
+.useful-controls-button {
+  border: 0 !important;
+  border-radius: var(--case-rayon) !important;
+  background-color: var(--case-fond) !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord);
+  fill: var(--texte-2) !important;
+}
+
+.useful-controls-button:hover {
+  fill: var(--accent) !important;
+}
+
+.useful-controls-dialog {
+  border: 1px solid var(--menu-bord);
+  border-radius: var(--menu-rayon) !important;
+  background-color: var(--menu-fond) !important;
+  color: var(--texte-2) !important;
+}
+
+.useful-controls-dialog-title {
+  font-weight: 700;
+  color: var(--texte);
+}
+
+/* ---------- Barre rapide (hors inventaire) et notifications d'objets ---------- */
+
+.hotbar-container {
+  gap: var(--ecart) !important;
+}
+
+.hotbar-item-slot,
+.item-notification-item-box {
+  width: var(--case) !important;
+  height: var(--case) !important;
+}
+
+.hotbar-item-slot {
+  background-color: var(--case-plein) !important;
+  box-shadow: inset 0 calc(-0.3 * var(--u)) 0 rgba(var(--accent-rgb), 0.85), inset 0 0 0 1px var(--case-bord);
+}
+
+.item-notification-action-box {
+  border-radius: var(--case-rayon) var(--case-rayon) 0 0 !important;
+  background-color: var(--accent) !important;
+  color: var(--sur-accent) !important;
+  font-family: var(--police-titre) !important;
+}
+
+/* ---------- Thème « liquide » : finitions verre ---------- */
+
+html[data-theme="liquide"] .inventory-slot,
+html[data-theme="liquide"] .hotbar-item-slot,
+html[data-theme="liquide"] .item-notification-item-box,
+html[data-theme="liquide"] .inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(-n+5),
+html[data-theme="liquide"] .kt-barre,
+html[data-theme="liquide"] #kt-onglets .kt-piste,
+html[data-theme="liquide"] .inventory-control .inventory-control-wrapper,
+html[data-theme="liquide"] #kt-couleur > button,
+html[data-theme="liquide"] .inventory-grid-header-wrapper p:last-child {
+  box-shadow: var(--verre);
+}
+
+/* Reflet + liseré irisé posés par-dessus chaque case (pas sur les cases de la Tenue : leur ::before porte l'icône) */
+html[data-theme="liquide"] .inventory-wrapper > .inventory-grid-wrapper:not(.tenue-mode) .inventory-slot::before,
+html[data-theme="liquide"] .hotbar-item-slot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--reflet);
+  pointer-events: none;
+}
+
+html[data-theme="liquide"] .inventory-wrapper > .inventory-grid-wrapper:first-child .inventory-slot:nth-child(-n+5) {
+  box-shadow: var(--verre), inset 0 calc(-0.3 * var(--u)) 0 rgba(var(--accent-rgb), 0.9);
+}
+
+html[data-theme="liquide"] .inventory-slot:hover {
+  box-shadow: var(--verre), inset 0 0 0 calc(0.18 * var(--u)) rgba(255, 255, 255, 0.75), 0 0 2.2vh rgba(255, 255, 255, 0.22) !important;
+}
+
+html[data-theme="liquide"] .tenue-mode .inventory-slot {
+  box-shadow: var(--verre);
+}
+
+html[data-theme="liquide"] .tenue-mode .inventory-slot:not([style*='url("none")']) {
+  background-color: rgba(var(--accent-rgb), 0.28) !important;
+  box-shadow: var(--verre), inset 0 0 0 calc(0.15 * var(--u)) rgba(255, 255, 255, 0.55), 0 0 2vh rgba(var(--accent-rgb), 0.35);
+}
+
+/* Cadre du personnage : une grande capsule de verre au lieu des quatre coins */
+html[data-theme="liquide"] .tenue-mode .inventory-grid-container::before {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0) 40%);
+  border-radius: calc(5 * var(--u));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 calc(-3 * var(--u)) calc(6 * var(--u)) rgba(255, 255, 255, 0.05);
+  opacity: 1;
+}
+
+html[data-theme="liquide"] .tenue-mode .inventory-grid-container::after {
+  opacity: 0.5;
+}
+
+/* Tout en pilule */
+html[data-theme="liquide"] .kt-barre,
+html[data-theme="liquide"] #kt-onglets .kt-piste,
+html[data-theme="liquide"] #kt-onglets button,
+html[data-theme="liquide"] .inventory-control .inventory-control-wrapper,
+html[data-theme="liquide"] .inventory-control .inventory-control-input,
+html[data-theme="liquide"] .inventory-control .inventory-control-button,
+html[data-theme="liquide"] #kt-couleur > button,
+html[data-theme="liquide"] .kt-barre button {
+  border-radius: 99vh !important;
+}
+
+html[data-theme="liquide"] .inventory-control .inventory-control-input {
+  background: rgba(255, 255, 255, 0.10) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18), inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+}
+
+html[data-theme="liquide"] .inventory-control .inventory-control-button:nth-of-type(1),
+html[data-theme="liquide"] #kt-onglets button.actif,
+html[data-theme="liquide"] .kt-barre button.actif {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.12), 0 0.6vh 1.8vh rgba(var(--accent-rgb), 0.45) !important;
+}
+
+html[data-theme="liquide"] .inventory-grid-header-wrapper p:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+html[data-theme="liquide"] .weight-bar {
+  height: calc(0.5 * var(--u)) !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="liquide"] .tooltip-wrapper,
+html[data-theme="liquide"] .context-menu-list,
+html[data-theme="liquide"] #kt-palette {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1.6vh 4vh rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Sécurité FiveM : pas de flou d'arrière-plan (il fait des blocs noirs) */
+*, *::before, *::after {
+  -webkit-backdrop-filter: none !important;
+          backdrop-filter: none !important;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script id="kirito-theme-script">
+      // Inventaire « Kirito » : thème réglable (server.cfg), filtres, panneau Tenue autour du personnage.
+      // Ce script ne modifie pas l'interface d'ox_inventory : il pose des classes et des variables CSS,
+      // et ajoute dans <body> ses propres éléments (barres de filtres, onglets, boutons), masqués à la fermeture.
+      (function () {
+        var racine = document.documentElement;
+
+        // L'interface d'ox_inventory désactive window.fetch au démarrage (sécurité).
+        // Ce script s'exécute avant elle : il garde une copie privée, utilisée uniquement
+        // pour ses appels vers ox_inventory (kiritoTenue, kiritoApercu, et swapItems pour « Jeter »).
+        var fetchPrive = window.fetch.bind(window);
+        var nomRessource = (typeof GetParentResourceName === 'function') ? GetParentResourceName() : 'ox_inventory';
+
+        function envoyer(nom, corps) {
+          try {
+            var requete = fetchPrive('https://' + nomRessource + '/' + nom, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+              body: corps
+            });
+            if (requete && requete.catch) requete.catch(function () {});
+          } catch (e) {}
+        }
+
+        function classe(nom, actif) {
+          if (racine.classList.contains(nom) !== actif) racine.classList.toggle(nom, actif);
+        }
+
+        function poser(el, styles) {
+          for (var k in styles) {
+            if (el.style[k] !== styles[k]) el.style[k] = styles[k];
+          }
+        }
+
+        // =====================================================================
+        // THÈME (valeurs envoyées par client.lua depuis server.cfg)
+        // =====================================================================
+        var THEMES = {
+          // nom : couleur principale par défaut du thème
+          ombre: '#4F8CFF',
+          verre: '#7C9CFF',
+          liquide: '#0A84FF',
+          neon: '#22D3EE',
+          brut: '#DC2626',
+          clair: '#2563EB'
+        };
+        var NUANCIER = [
+          ['Bleu', '#4F8CFF'], ['Cyan', '#22D3EE'], ['Vert', '#22C55E'], ['Or', '#EAB308'], ['Orange', '#F97316'],
+          ['Rouge', '#DC2626'], ['Rose', '#EC4899'], ['Violet', '#8B5CF6'], ['Gris', '#A1A1AA'], ['Blanc', '#F5F5F5']
+        ];
+        var CLE_COULEUR = 'kirito_inventaire_couleur';
+        var reglages = { theme: 'ombre', accent: '', couleurLibre: true, echelle: 100 };
+        var echelle = 1;
+
+        function versRgb(hex) {
+          var m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+          if (!m) return null;
+          var n = parseInt(m[1], 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+
+        function versHex(rgb) {
+          return '#' + rgb.map(function (v) { return ('0' + Math.round(v).toString(16)).slice(-2); }).join('').toUpperCase();
+        }
+
+        function couleurServeur() {
+          return versRgb(reglages.accent) ? versHex(versRgb(reglages.accent)) : THEMES[racine.getAttribute('data-theme')] || THEMES.ombre;
+        }
+
+        function appliquerCouleur(hex) {
+          var rgb = versRgb(hex) || versRgb(couleurServeur());
+          var clair = rgb.map(function (v) { return v + (255 - v) * 0.35; });
+          var lum = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+          racine.style.setProperty('--accent', versHex(rgb));
+          racine.style.setProperty('--accent-rgb', rgb.join(', '));
+          racine.style.setProperty('--accent-clair', versHex(clair));
+          racine.style.setProperty('--sur-accent', lum > 0.62 ? '#111215' : '#FFFFFF');
+          var pastilles = (typeof couleur !== 'undefined' && couleur) ? couleur.querySelectorAll('.kt-nuancier button') : [];
+          for (var i = 0; i < pastilles.length; i++) {
+            pastilles[i].classList.toggle('actif', pastilles[i].getAttribute('data-couleur') === versHex(rgb));
+          }
+        }
+
+        // Partage la couleur du joueur avec le jeu (reprise par illenium-appearance)
+        var couleurPartagee;
+        function partagerCouleur(hex) {
+          var valeur = versRgb(hex) ? versHex(versRgb(hex)) : '';
+          if (valeur === couleurPartagee) return;
+          couleurPartagee = valeur;
+          envoyer('kiritoCouleur', JSON.stringify({ couleur: valeur }));
+        }
+
+        function appliquerTheme() {
+          var nom = String(reglages.theme || '').toLowerCase().replace(/[\s_-]/g, '');
+          if (nom === 'liquid' || nom === 'liquidglass' || nom === 'glass') nom = 'liquide';
+          racine.setAttribute('data-theme', THEMES[nom] ? nom : 'ombre');
+          echelle = Math.min(1.4, Math.max(0.6, (Number(reglages.echelle) || 100) / 100));
+          racine.style.setProperty('--echelle', String(echelle));
+          classe('couleur-libre', !!reglages.couleurLibre);
+          var perso = null;
+          if (reglages.couleurLibre) { try { perso = localStorage.getItem(CLE_COULEUR); } catch (e) {} }
+          appliquerCouleur(perso || couleurServeur());
+          partagerCouleur(reglages.couleurLibre ? perso : null);
+          planifier();
+        }
+
+        window.addEventListener('message', function (e) {
+          var m = e.data;
+          if (!m || m.action !== 'kiritoTheme' || !m.data) return;
+          var d = m.data;
+          if (typeof d.theme === 'string') reglages.theme = d.theme;
+          if (typeof d.accent === 'string') reglages.accent = d.accent;
+          if (typeof d.couleurLibre === 'boolean') reglages.couleurLibre = d.couleurLibre;
+          if (d.echelle !== undefined) reglages.echelle = d.echelle;
+          appliquerTheme();
+        });
+
+        // =====================================================================
+        // ÉLÉMENTS AJOUTÉS : barres de filtres, onglets, boutons de la Tenue, couleur
+        // =====================================================================
+        function svg(d) {
+          return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
+        }
+        var ICONES = {
+          tout: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.3 7 12 12l8.7-5 M12 22V12',
+          armes: 'M3 7h16l2 2v3h-7l-1.5 2.5H10L8.5 20H4.5L6 12H3z M14 12v2.5',
+          vetements: 'M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z',
+          divers: 'M10.5 20.5 3.5 13.5a4.95 4.95 0 1 1 7-7l7 7a4.95 4.95 0 1 1-7 7z M8.5 8.5l7 7'
+        };
+        var FILTRES = [['tout', 'Tout'], ['armes', 'Armes'], ['vetements', 'Vêtements'], ['divers', 'Divers']];
+
+        function creerBarre(cote) {
+          var b = document.createElement('div');
+          b.className = 'kt-barre';
+          b.setAttribute('data-cote', cote);
+          b.innerHTML = FILTRES.map(function (f) {
+            return '<button type="button" data-filtre="' + f[0] + '" title="' + f[1] + '"' + (f[0] === 'tout' ? ' class="actif"' : '') + '>' + svg(ICONES[f[0]]) + '</button>';
+          }).join('');
+          b.addEventListener('click', function (e) {
+            var bt = e.target.closest('button[data-filtre]');
+            if (bt) filtrer(cote, bt.getAttribute('data-filtre'));
+          });
+          return b;
+        }
+
+        function filtrer(cote, filtre) {
+          racine.setAttribute('data-filtre-' + cote, filtre);
+          var boutons = document.querySelectorAll('.kt-barre[data-cote="' + cote + '"] button');
+          for (var i = 0; i < boutons.length; i++) {
+            boutons[i].classList.toggle('actif', boutons[i].getAttribute('data-filtre') === filtre);
+          }
+        }
+
+        var barreG = creerBarre('g');
+        var barreD = creerBarre('d');
+
+        var onglets = document.createElement('div');
+        onglets.id = 'kt-onglets';
+        onglets.innerHTML = '<div class="kt-piste">' +
+          '<button type="button" data-onglet="tenue">Tenue <span class="kt-compte"></span></button></div>';
+        onglets.addEventListener('click', function (e) {
+          var b = e.target.closest('button[data-onglet]');
+          if (!b || b.classList.contains('actif')) return;
+          envoyer('kiritoTenue', JSON.stringify({ action: b.getAttribute('data-onglet') }));
+        });
+
+        var couleur = document.createElement('div');
+        couleur.id = 'kt-couleur';
+        couleur.innerHTML =
+          '<button type="button" title="Couleur de l\'inventaire"><i></i></button>' +
+          '<div id="kt-palette"><div class="kt-titre">Ma couleur</div><div class="kt-nuancier"></div>' +
+          '<button type="button" class="kt-reinit">Couleur du serveur</button></div>';
+        var palette = couleur.querySelector('#kt-palette');
+        var nuancier = couleur.querySelector('.kt-nuancier');
+        NUANCIER.forEach(function (c) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.title = c[0];
+          b.setAttribute('data-couleur', c[1]);
+          b.style.background = c[1];
+          nuancier.appendChild(b);
+        });
+        couleur.querySelector(':scope > button').addEventListener('click', function () {
+          palette.classList.toggle('ouverte');
+        });
+        nuancier.addEventListener('click', function (e) {
+          var b = e.target.closest('button[data-couleur]');
+          if (!b) return;
+          try { localStorage.setItem(CLE_COULEUR, b.getAttribute('data-couleur')); } catch (er) {}
+          appliquerCouleur(b.getAttribute('data-couleur'));
+          partagerCouleur(b.getAttribute('data-couleur'));
+        });
+        couleur.querySelector('.kt-reinit').addEventListener('click', function () {
+          try { localStorage.removeItem(CLE_COULEUR); } catch (er) {}
+          appliquerCouleur(couleurServeur());
+          partagerCouleur(null);
+        });
+        document.addEventListener('mousedown', function (e) {
+          if (palette.classList.contains('ouverte') && !e.target.closest('#kt-couleur')) palette.classList.remove('ouverte');
+        }, true);
+
+        var ajouts = [barreG, barreD, onglets, couleur];
+
+        // =====================================================================
+        // « Mettre au sol » (clic droit) : ox_inventory dépose l'objet dans le panneau de droite.
+        // Quand ce panneau n'est pas le sol (Tenue, coffre, véhicule...), on envoie nous-mêmes
+        // l'objet au sol, comme le fait ox_inventory avec le panneau Sol.
+        // =====================================================================
+        var TEXTES_SOL = ['mettre au sol', 'jeter', 'drop'];   // libellé du choix dans le menu (locales)
+        var clicDroit = null;
+        document.addEventListener('contextmenu', function (e) {
+          clicDroit = null;
+          var slot = e.target && e.target.closest ? e.target.closest('.inventory-slot') : null;
+          if (!slot) return;
+          var panneaux = document.querySelectorAll('.inventory-wrapper > .inventory-grid-wrapper');
+          if (!panneaux.length || slot.closest('.inventory-grid-wrapper') !== panneaux[0]) return;
+          var info = slot.querySelector('.item-slot-info-wrapper p:last-child');
+          var nombre = info ? parseInt(info.textContent.replace(/[^0-9]/g, ''), 10) : 1;
+          clicDroit = { slot: Array.prototype.indexOf.call(slot.parentNode.children, slot) + 1, count: nombre || 1 };
+        }, true);
+
+        document.addEventListener('click', function (e) {
+          if (racine.classList.contains('avec-sol') || !clicDroit) return;
+          var choix = e.target && e.target.closest ? e.target.closest('.context-menu-item') : null;
+          var texteChoix = choix ? choix.textContent.trim().toLowerCase() : '';
+          if (TEXTES_SOL.indexOf(texteChoix) === -1) return;
+
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          var champ = document.querySelector('.inventory-control-input');
+          var quantite = champ ? parseInt(champ.value, 10) || 0 : 0;
+          var count = quantite > 0 ? Math.min(quantite, clicDroit.count) : clicDroit.count;
+          envoyer('swapItems', JSON.stringify({ fromSlot: clicDroit.slot, fromType: 'player', toSlot: 1, toType: 'newdrop', count: count }));
+          clicDroit = null;
+
+          // Ferme le menu du clic droit (clic « à côté »)
+          document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+          document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+        }, true);
+
+        // =====================================================================
+        // MISE EN PAGE (recalculée à chaque changement de l'interface)
+        // =====================================================================
+        function rect(el) { return el.getBoundingClientRect(); }
+        function px(n) { return Math.round(n * 10) / 10 + 'px'; }
+        function unite() { return Math.min(window.innerHeight / 100, window.innerWidth * 0.5625 / 100) * echelle; }
+
+        // Aperçu du personnage : on envoie au jeu la zone du cadre (en fractions de l'écran)
+        var dernierApercu = '';
+        function apercu(zone) {
+          var donnees = zone
+            ? { visible: true, x: +zone.x.toFixed(4), y: +zone.y.toFixed(4), w: +zone.w.toFixed(4), h: +zone.h.toFixed(4) }
+            : { visible: false };
+          var cle = JSON.stringify(donnees);
+          if (cle === dernierApercu) return;
+          dernierApercu = cle;
+          envoyer('kiritoApercu', cle);
+        }
+
+        // Barre de filtres verticale, collée à l'extérieur de la grille (à gauche des poches, à droite du coffre)
+        function placerBarre(barre, panneau, cote) {
+          var grille = panneau && panneau.querySelector('.inventory-grid-container');
+          var r = panneau && rect(panneau), g = grille && rect(grille);
+          if (!r || !r.width || !g) { barre.classList.remove('visible'); return; }
+          barre.classList.add('visible');
+          var u = unite(), largeur = barre.offsetWidth || 4.6 * u;
+          var x = cote === 'g' ? r.left - 1.2 * u - largeur : r.right + 1.2 * u;
+          poser(barre, { left: px(x), top: px(g.top) });
+        }
+
+        var prevu = false;
+
+        function marquer() {
+          prevu = false;
+          var wrapper = document.querySelector('.inventory-wrapper');
+
+          if (!wrapper) {
+            if (racine.classList.contains('dc-ouvert')) {
+              palette.classList.remove('ouverte');
+              filtrer('g', 'tout');
+              filtrer('d', 'tout');
+            }
+            classe('dc-ouvert', false);
+            classe('avec-tenue', false);
+            classe('avec-sol', false);
+            classe('avec-droite', false);
+            apercu(null);
+            return;
+          }
+
+          ajouts.forEach(function (el) { if (!el.isConnected) document.body.appendChild(el); });
+          classe('dc-ouvert', true);
+
+          var panneaux = wrapper.querySelectorAll(':scope > .inventory-grid-wrapper');
+          var gauche = panneaux[0];
+          var droite = panneaux.length > 1 ? panneaux[panneaux.length - 1] : null;
+          var tenue = null;
+
+          for (var i = 0; i < panneaux.length; i++) {
+            var p = panneaux[i];
+            var titre = p.querySelector('.inventory-grid-header-wrapper p');
+            var estTenue = i > 0 && !!titre && titre.textContent.trim() === 'Tenue';
+            if (p.classList.contains('tenue-mode') !== estTenue) p.classList.toggle('tenue-mode', estTenue);
+            if (estTenue) tenue = p;
+          }
+
+          // Panneau du sol : « Sol » (vide) ou un tas déjà posé, nommé « Drop 286564 » par ox_inventory
+          var titreDroite = droite && droite.querySelector('.inventory-grid-header-wrapper p');
+          var estSol = !!titreDroite && /^(sol|drop\s+\S+)$/i.test(titreDroite.textContent.trim());
+          if (droite && droite.classList.contains('panneau-sol') !== estSol) droite.classList.toggle('panneau-sol', estSol);
+
+          classe('avec-tenue', !!tenue);
+          classe('avec-sol', estSol);
+          classe('avec-droite', !!droite && !tenue);
+
+          // Onglets
+          var compte = 0;
+          if (tenue) {
+            var cases = tenue.querySelectorAll('.inventory-grid-container > .inventory-slot');
+            for (var j = 0; j < cases.length && j < 13; j++) {   // la 14e case (tenue complète) n'est pas une pièce
+              if ((cases[j].getAttribute('style') || '').indexOf('url("none")') === -1) compte++;
+            }
+          }
+          var texteCompte = tenue ? compte + '/13' : '';
+          var spanCompte = onglets.querySelector('.kt-compte');
+          if (spanCompte.textContent !== texteCompte) spanCompte.textContent = texteCompte;
+          var bt = onglets.querySelectorAll('button');
+          for (var o = 0; o < bt.length; o++) {
+            var nom = bt[o].getAttribute('data-onglet');
+            var actif = (nom === 'tenue' && !!tenue) || (nom === 'sol' && estSol);
+            if (bt[o].classList.contains('actif') !== actif) bt[o].classList.toggle('actif', actif);
+          }
+
+          // Barres de filtres
+          placerBarre(barreG, gauche, 'g');
+          if (droite && !tenue) placerBarre(barreD, droite, 'd'); else barreD.classList.remove('visible');
+
+          // Zone du personnage
+          var u = unite();
+          var zone = null;
+          var grilleG = gauche && gauche.querySelector('.inventory-grid-container');
+          if (tenue) {
+            var gt = tenue.querySelector('.inventory-grid-container');
+            var rg = gt && rect(gt);
+            if (rg && rg.width) {
+              var largeurCase = 9.4 * u;
+              zone = { x: rg.left + largeurCase + 1.6 * u, y: rg.top, w: 36 * u, h: rg.height - 10 * u };
+            }
+          } else if (droite && grilleG) {
+            var rgG = rect(grilleG), rP = rect(gauche), rD = rect(droite);
+            zone = { x: rP.right, y: rgG.top, w: rD.left - rP.right, h: rgG.height };
+          }
+
+          var enteteG = gauche && gauche.querySelector('.inventory-grid-header-wrapper');
+          if (zone && enteteG) {
+            var re = rect(enteteG);
+            poser(onglets, { left: px(zone.x + zone.w / 2), top: px(re.top), height: px(re.height) });
+          }
+
+          if (tenue && zone) {
+            apercu({
+              x: zone.x / window.innerWidth, y: zone.y / window.innerHeight,
+              w: zone.w / window.innerWidth, h: zone.h / window.innerHeight
+            });
+          } else {
+            apercu(null);
+          }
+
+          // Pastille couleur, à droite de la barre du bas
+          var controle = wrapper.querySelector('.inventory-control-wrapper');
+          if (controle) {
+            var rc = rect(controle);
+            if (rc.width) poser(couleur, { left: px(rc.right + 0.8 * u), top: px(rc.top) });
+          }
+        }
+
+        function planifier() {
+          if (!prevu) {
+            prevu = true;
+            requestAnimationFrame(marquer);
+          }
+        }
+
+        // Thème par défaut en attendant les réglages du serveur
+        appliquerTheme();
+
+        new MutationObserver(planifier).observe(document.body, {
+          subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['style', 'class']
+        });
+        window.addEventListener('resize', planifier);
+        document.addEventListener('transitionend', planifier, true);
+        planifier();
+      })();
+    </script>
+  </body>
+</html>

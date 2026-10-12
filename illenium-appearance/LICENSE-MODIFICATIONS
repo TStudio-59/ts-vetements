@@ -1,0 +1,13 @@
+LICENCE DES MODIFICATIONS — illenium-appearance (version cfx_ts_vetements)
+
+Ce dossier contient deux parties sous deux licences différentes :
+
+1. Le code d'origine d'illenium-appearance (snakewiz & iLLeniumStudios) reste sous licence MIT :
+   voir le fichier LICENSE. Ce code d'origine est disponible gratuitement sur
+   https://github.com/iLLeniumStudios/illenium-appearance
+
+2. Les modifications ajoutées par Kirito (listées dans MODIFICATIONS.md : thèmes, correctifs de sécurité,
+   intégration de cfx_ts_vetements) sont Copyright (c) 2026 Kirito et distribuées sous la même licence
+   que cfx_ts_vetements (voir cfx_ts_vetements/LICENSE) :
+   - utilisation, modification et partage gratuits autorisés, en citant l'auteur ;
+   - vente, mise derrière un paiement et chiffrement (escrow) interdits.

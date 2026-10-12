@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="fr" class="kt" data-theme="ombre">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI</title>
+  <script type="module" crossorigin src="./assets/index.b8e72b46.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Montserrat:wght@500;600;700;800&family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style id="da-circuit">
+/* ================================================================
+   DA « Circuit » pour illenium-appearance
+   Panneau collé à droite, angles vifs, typographie condensée, rouge.
+   Pour revenir à l'original : supprimer ce bloc <style> et remettre
+   currentTheme = "qb-core" dans shared/theme.lua.
+   ================================================================ */
+
+:root {
+  --u: calc(100vh / 1080);            /* 1 pixel à 1080p, s'adapte à la résolution */
+
+  --accent: #EF4444;                  /* rouge vif : textes, curseurs, survols */
+  --accent-soft: rgba(239, 68, 68, 0.16);
+  --accent-fill: #DC2626;             /* rouge des boutons pleins */
+  --accent-fill-hover: #E53935;
+  --accent-ink: #FFFFFF;
+
+  --ink: #F0F0F2;
+  --muted: #A1A1AA;
+  --panel: rgba(12, 12, 14, 0.94);
+  --line: rgba(255, 255, 255, 0.09);
+  --line-2: rgba(255, 255, 255, 0.16);
+
+  --pad: calc(36 * var(--u));
+  --panel-w: calc(500 * var(--u));
+  --panel-x: calc(100vw - var(--panel-w));
+  --head: calc(150 * var(--u));
+  --foot: calc(56 * var(--u));
+
+  --display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+}
+
+/* ---------- Structure : le panneau collé à droite ---------- */
+
+.sc-dhKdcB {
+  position: relative !important;
+}
+
+.sc-dhKdcB::before {
+  content: "";
+  position: absolute;
+  left: var(--panel-x);
+  top: 0;
+  width: var(--panel-w);
+  height: 100vh;
+  background: var(--panel);
+  border-left: 1px solid var(--line);
+  box-shadow: inset 0 calc(4 * var(--u)) 0 var(--accent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sc-dhKdcB::after {
+  content: "Apparence";
+  position: absolute;
+  left: calc(var(--panel-x) + var(--pad));
+  top: calc(var(--pad) + 34 * var(--u));
+  font-family: var(--display);
+  font-size: calc(72 * var(--u));
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sc-kpDqfm {
+  position: relative !important;
+  z-index: 1;
+  width: var(--panel-w) !important;
+  max-width: none !important;
+  height: calc(100vh - 2 * var(--pad) - var(--head) - var(--foot) - 24 * var(--u)) !important;
+  margin: calc(var(--pad) + var(--head)) 0 0 auto !important;
+  padding: calc(4 * var(--u)) var(--pad) calc(16 * var(--u)) !important;
+  background: none !important;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 calc(10 * var(--u)), #000 calc(100% - 24 * var(--u)), transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 calc(10 * var(--u)), #000 calc(100% - 24 * var(--u)), transparent 100%);
+}
+
+/* ---------- Sections ---------- */
+
+.sc-aXZVg {
+  color: var(--ink) !important;
+}
+
+.sc-aXZVg + div {
+  margin-top: calc(6 * var(--u)) !important;
+}
+
+.sc-gEvEer {
+  height: calc(52 * var(--u)) !important;
+  padding: 0 calc(18 * var(--u)) !important;
+  border: 1px solid var(--line);
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.sc-gEvEer span {
+  font-family: var(--display);
+  font-size: calc(19 * var(--u)) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sc-gEvEer svg {
+  width: calc(18 * var(--u));
+  height: calc(18 * var(--u));
+}
+
+.sc-eqUAAy {
+  padding: 0 0 calc(8 * var(--u)) !important;
+}
+
+/* Éléments : une liste séparée par des filets, sans cartes */
+.sc-fqkvVR {
+  margin-top: 0 !important;
+  padding: calc(18 * var(--u)) calc(4 * var(--u)) !important;
+  border-radius: 0 !important;
+  background: none !important;
+  border-bottom: 1px solid var(--line);
+}
+
+.sc-fqkvVR > span {
+  font-family: var(--display);
+  font-size: calc(17 * var(--u)) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink) !important;
+}
+
+.sc-dcJsrY {
+  margin-top: calc(12 * var(--u)) !important;
+}
+
+.sc-dcJsrY > div + div {
+  margin-top: calc(12 * var(--u)) !important;
+}
+
+.sc-dAlyuH > div + div {
+  margin-left: calc(12 * var(--u)) !important;
+}
+
+.sc-gsFSXq > span small,
+.sc-kAyceB > span small,
+.sc-iGgWBj > span small,
+.sc-imWYAI > span small,
+.sc-ikkxIA > span small {
+  font-size: calc(11 * var(--u)) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted) !important;
+}
+
+.sc-gsFSXq > span small + small,
+.sc-kAyceB > span small + small {
+  color: var(--accent) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Sélecteurs ‹ 24 › ---------- */
+
+.sc-gsFSXq > div {
+  height: calc(44 * var(--u)) !important;
+  margin-top: calc(6 * var(--u)) !important;
+  border: 1px solid var(--line-2);
+  border-radius: calc(3 * var(--u));
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.sc-gsFSXq > div button {
+  min-width: calc(44 * var(--u)) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  transform: none !important;
+}
+
+.sc-gsFSXq > div button:hover {
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
+}
+
+.sc-gsFSXq > div button svg {
+  width: calc(16 * var(--u));
+  height: calc(16 * var(--u));
+}
+
+.sc-gsFSXq > div input {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  font-family: var(--display);
+  font-size: calc(22 * var(--u)) !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Curseurs : barre fine, repère vertical ---------- */
+
+.sc-kAyceB > div {
+  margin-top: calc(12 * var(--u)) !important;
+}
+
+.sc-kAyceB > div > small {
+  font-size: calc(11 * var(--u)) !important;
+  color: var(--muted);
+}
+
+.sc-kAyceB input[type="range"] {
+  height: calc(2 * var(--u)) !important;
+  margin: 0 calc(12 * var(--u)) !important;
+  border-radius: 0 !important;
+  background: var(--line-2) !important;
+}
+
+.sc-kAyceB input[type="range"]::-webkit-slider-thumb {
+  width: calc(8 * var(--u)) !important;
+  height: calc(24 * var(--u)) !important;
+  border-radius: calc(2 * var(--u)) !important;
+  background: var(--accent) !important;
+}
+
+/* ---------- Pastilles de couleur ---------- */
+
+.sc-jXbUNg {
+  width: calc(22 * var(--u)) !important;
+  height: calc(22 * var(--u)) !important;
+  margin: calc(2 * var(--u)) !important;
+  border-radius: calc(2 * var(--u)) !important;
+}
+
+/* ---------- Listes déroulantes ---------- */
+
+.sc-aXZVg [class*="__control"] {
+  min-height: calc(44 * var(--u)) !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: calc(3 * var(--u)) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  box-shadow: none !important;
+}
+
+.sc-aXZVg [class*="__control--is-focused"] {
+  border-color: var(--accent) !important;
+}
+
+.sc-aXZVg [class*="__single-value"],
+.sc-aXZVg [class*="__input"] input,
+.sc-aXZVg [class*="__placeholder"] {
+  color: var(--ink) !important;
+  font-size: calc(14 * var(--u)) !important;
+}
+
+.sc-aXZVg [class*="__indicator-separator"] {
+  display: none !important;
+}
+
+.sc-aXZVg [class*="__indicator"] {
+  color: var(--muted) !important;
+}
+
+.sc-aXZVg [class*="__menu"] {
+  border-radius: calc(3 * var(--u)) !important;
+  background: #16161A !important;
+  border: 1px solid var(--line-2) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.sc-aXZVg [class*="__option"] {
+  color: var(--ink) !important;
+  background: transparent !important;
+  font-size: calc(14 * var(--u)) !important;
+}
+
+.sc-aXZVg [class*="__option--is-focused"] {
+  background: var(--accent-soft) !important;
+}
+
+.sc-aXZVg [class*="__option--is-selected"] {
+  background: var(--accent-fill) !important;
+  color: var(--accent-ink) !important;
+}
+
+.sc-gFqAkR {
+  padding: calc(10 * var(--u)) calc(18 * var(--u)) !important;
+  border: 1px solid var(--line-2);
+  border-radius: calc(3 * var(--u)) !important;
+  background-color: transparent !important;
+  color: var(--ink) !important;
+  font-family: var(--display);
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sc-gFqAkR:hover {
+  border-color: var(--accent-fill);
+  background-color: var(--accent-fill) !important;
+  color: var(--accent-ink) !important;
+}
+
+/* ---------- Colonne d'outils en haut à gauche (caméra, rotation) ---------- */
+
+.sc-jlZhew {
+  position: fixed !important;
+  left: calc(40 * var(--u)) !important;
+  top: calc(40 * var(--u)) !important;
+  bottom: auto !important;
+  right: auto !important;
+  width: auto !important;
+  height: max-content !important;
+  margin: 0 !important;
+  padding: calc(8 * var(--u)) !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: calc(8 * var(--u));
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: calc(4 * var(--u));
+  z-index: 5;
+}
+
+.sc-jlZhew > * + * {
+  margin-top: 0 !important;
+}
+
+.sc-jlZhew::before {
+  content: "Création du personnage";
+  position: fixed;
+  left: calc(var(--panel-x) + var(--pad));
+  top: calc(var(--pad) + 4 * var(--u));
+  font-size: calc(13 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.sc-jlZhew button,
+.sc-dLMFU {
+  width: calc(48 * var(--u)) !important;
+  height: calc(48 * var(--u)) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: calc(3 * var(--u)) !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.sc-jlZhew button:hover,
+.sc-cPiKLX:hover .sc-dLMFU {
+  border-color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
+}
+
+.sc-jlZhew button svg,
+.sc-dLMFU svg {
+  width: calc(18 * var(--u));
+  height: calc(18 * var(--u));
+}
+
+/* Groupes caméra / vêtements : les options s'ouvrent à droite au survol */
+.sc-cPiKLX {
+  position: relative;
+  width: calc(48 * var(--u)) !important;
+  height: calc(48 * var(--u)) !important;
+  overflow: visible !important;
+}
+
+.sc-cPiKLX .sc-eDPEul {
+  display: none !important;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  padding: 0 0 0 calc(18 * var(--u)) !important;   /* pont pour garder le survol */
+}
+
+.sc-cPiKLX:hover .sc-eDPEul {
+  display: flex !important;
+}
+
+.sc-eDPEul::before {
+  content: "";
+  position: absolute;
+  top: calc(-8 * var(--u));
+  bottom: calc(-8 * var(--u));
+  left: calc(10 * var(--u));
+  right: calc(-8 * var(--u));
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: calc(4 * var(--u));
+  z-index: -1;
+}
+
+.sc-eDPEul > * + * {
+  margin-left: calc(8 * var(--u)) !important;
+}
+
+/* ---------- Annuler / Enregistrer en bas du panneau ---------- */
+
+.sc-jlZhew > .sc-cwHptR + .sc-jEACwC {
+  position: fixed !important;
+  left: calc(var(--panel-x) + var(--pad) + (var(--panel-w) - 2 * var(--pad) - 12 * var(--u)) * 0.36 + 12 * var(--u));
+  bottom: var(--pad);
+  width: calc((var(--panel-w) - 2 * var(--pad) - 12 * var(--u)) * 0.64) !important;
+  height: var(--foot) !important;
+  gap: calc(10 * var(--u));
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--accent-fill) !important;
+  color: var(--accent-ink) !important;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16 * var(--u)) 100%, 0 100%);
+}
+
+.sc-jlZhew > .sc-cwHptR + .sc-jEACwC:last-child {
+  left: calc(var(--panel-x) + var(--pad));
+  width: calc(var(--panel-w) - 2 * var(--pad)) !important;
+}
+
+.sc-jlZhew > .sc-cwHptR + .sc-jEACwC::after {
+  content: "Enregistrer";
+  font-family: var(--display);
+  font-size: calc(20 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sc-jlZhew > .sc-cwHptR + .sc-jEACwC:hover {
+  background: var(--accent-fill-hover) !important;
+  color: var(--accent-ink) !important;
+}
+
+.sc-jlZhew > .sc-cwHptR + .sc-jEACwC + .sc-jEACwC {
+  position: fixed !important;
+  left: calc(var(--panel-x) + var(--pad));
+  bottom: var(--pad);
+  width: calc((var(--panel-w) - 2 * var(--pad) - 12 * var(--u)) * 0.36) !important;
+  height: var(--foot) !important;
+  gap: calc(8 * var(--u));
+  border: 1px solid var(--line-2) !important;
+  border-radius: 0 !important;
+}
+
+.sc-jlZhew > .sc-cwHptR + .sc-jEACwC + .sc-jEACwC::after {
+  content: "Annuler";
+  font-family: var(--display);
+  font-size: calc(20 * var(--u));
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- Fenêtre de confirmation ---------- */
+
+.sc-eldPxv {
+  background: rgba(8, 8, 10, 0.86) !important;
+  text-shadow: none !important;
+  color: var(--ink) !important;
+  gap: calc(8 * var(--u));
+}
+
+.sc-eldPxv > p {
+  font-family: var(--display) !important;
+  font-size: calc(64 * var(--u)) !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.sc-eldPxv > p::after {
+  content: "";
+  display: block;
+  width: calc(64 * var(--u));
+  height: calc(4 * var(--u));
+  margin: calc(16 * var(--u)) auto calc(6 * var(--u));
+  background: var(--accent);
+}
+
+.sc-eldPxv > span {
+  font-size: calc(16 * var(--u)) !important;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--muted);
+  opacity: 1 !important;
+}
+
+.sc-fPXMVe {
+  margin-top: calc(36 * var(--u)) !important;
+  gap: calc(12 * var(--u));
+}
+
+.sc-fPXMVe button {
+  width: calc(190 * var(--u)) !important;
+  height: var(--foot) !important;
+  margin: 0 !important;
+  border: 1px solid var(--line-2) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  font-family: var(--display) !important;
+  font-size: calc(20 * var(--u)) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em;
+  text-shadow: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.sc-fPXMVe button:first-child {
+  border-color: var(--accent-fill) !important;
+  background: var(--accent-fill) !important;
+  color: var(--accent-ink) !important;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16 * var(--u)) 100%, 0 100%);
+}
+
+.sc-fPXMVe button:hover {
+  filter: brightness(1.12);
+}
+
+    </style>
+    <style id="kirito-theme">
+/* ================================================================
+   Thème « Kirito » pour illenium-appearance — même style que l'inventaire.
+   Le thème et la couleur viennent de server.cfg (mêmes réglages que l'inventaire) :
+     setr inventory:theme  "ombre"    -> ombre | verre | liquide | neon | brut | clair
+     setr inventory:accent "#4F8CFF"  -> couleur principale (vide = celle du thème)
+     setr inventory:echelle "100"     -> taille en %
+   La couleur choisie par le joueur dans l'inventaire est reprise ici.
+   Se pose par-dessus la base « Circuit » (bloc da-circuit ci-dessus).
+   ================================================================ */
+
+html.kt {
+  --echelle: 1;
+  --u: calc(100vh / 1080 * var(--echelle));
+
+  /* couleur principale (remplie par le script) */
+  --k-accent: #4F8CFF;
+  --k-accent-rgb: 79, 140, 255;
+  --k-accent-clair: #84AEFF;
+  --k-sur-accent: #FFFFFF;
+
+  /* raccord avec la base « Circuit » */
+  --accent: var(--k-accent-clair);
+  --accent-soft: rgba(var(--k-accent-rgb), 0.18);
+  --accent-fill: var(--k-accent);
+  --accent-fill-hover: var(--k-accent);
+  --accent-ink: var(--k-sur-accent);
+  --ink: var(--texte);
+  --muted: var(--texte-2);
+  --panel: var(--app-panneau);
+  --line: var(--case-bord);
+  --line-2: var(--case-bord);
+  --display: var(--police-titre);
+
+  --marge: calc(14 * var(--u));
+  --rayon-k: calc(var(--case-rayon) * 1.6);
+}
+
+/* ---------- Thèmes (mêmes noms et mêmes couleurs que l'inventaire) ---------- */
+
+html.kt[data-theme="ombre"] {
+  --police: 'Montserrat', 'Roboto', sans-serif;
+  --police-titre: 'Montserrat', 'Roboto', sans-serif;
+  --casse: uppercase;
+  --texte: #F5F5F7;
+  --texte-2: rgba(255, 255, 255, 0.64);
+  --texte-3: rgba(255, 255, 255, 0.42);
+  --case-fond: rgba(34, 34, 38, 0.62);
+  --case-plein: rgba(48, 48, 54, 0.80);
+  --case-bord: rgba(255, 255, 255, 0.06);
+  --case-rayon: calc(9 * var(--u));
+  --app-panneau: rgba(20, 20, 24, 0.80);
+  --app-entete: rgba(0, 0, 0, 0.22);
+  --app-bord: rgba(255, 255, 255, 0.06);
+  --app-ombre: 0 calc(16 * var(--u)) calc(48 * var(--u)) rgba(0, 0, 0, 0.35);
+  --menu-fond: rgba(18, 18, 21, 0.97);
+  --relief: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+html.kt[data-theme="verre"] {
+  --police: 'Manrope', 'Roboto', sans-serif;
+  --police-titre: 'Manrope', 'Roboto', sans-serif;
+  --casse: none;
+  --texte: #F4F5F7;
+  --texte-2: rgba(244, 245, 247, 0.66);
+  --texte-3: rgba(244, 245, 247, 0.42);
+  --case-fond: rgba(255, 255, 255, 0.055);
+  --case-plein: rgba(255, 255, 255, 0.11);
+  --case-bord: rgba(255, 255, 255, 0.08);
+  --case-rayon: calc(11 * var(--u));
+  --app-panneau: linear-gradient(165deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0) 65%), rgba(18, 20, 26, 0.70);
+  --app-entete: rgba(255, 255, 255, 0.03);
+  --app-bord: rgba(255, 255, 255, 0.12);
+  --app-ombre: 0 2.4vh 6vh rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --menu-fond: rgba(24, 26, 32, 0.97);
+  --relief: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+html.kt[data-theme="liquide"] {
+  --police: 'Inter', 'Manrope', 'Roboto', sans-serif;
+  --police-titre: 'Inter', 'Manrope', 'Roboto', sans-serif;
+  --casse: none;
+  --texte: #FFFFFF;
+  --texte-2: rgba(255, 255, 255, 0.78);
+  --texte-3: rgba(255, 255, 255, 0.55);
+  --case-fond: rgba(96, 100, 112, 0.30);
+  --case-plein: rgba(118, 122, 134, 0.42);
+  --case-bord: rgba(255, 255, 255, 0.16);
+  --case-rayon: calc(19 * var(--u));
+  --app-panneau: linear-gradient(155deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 34%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0.05) 100%), rgba(70, 74, 84, 0.42);
+  --app-entete: transparent;
+  --app-bord: rgba(255, 255, 255, 0.22);
+  --app-ombre: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(255, 255, 255, 0.14), 0 calc(16 * var(--u)) calc(48 * var(--u)) rgba(0, 0, 0, 0.28);
+  --menu-fond: rgba(38, 40, 46, 0.95);
+  --relief: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 1px 0 0 rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(255, 255, 255, 0.12), 0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(0, 0, 0, 0.16);
+}
+
+html.kt[data-theme="neon"] {
+  --police: 'Rajdhani', 'Roboto', sans-serif;
+  --police-titre: 'Rajdhani', 'Roboto', sans-serif;
+  --casse: uppercase;
+  --texte: #EAF6FF;
+  --texte-2: rgba(234, 246, 255, 0.66);
+  --texte-3: rgba(234, 246, 255, 0.42);
+  --case-fond: rgba(6, 9, 18, 0.70);
+  --case-plein: rgba(9, 14, 28, 0.85);
+  --case-bord: rgba(var(--k-accent-rgb), 0.26);
+  --case-rayon: calc(3 * var(--u));
+  --app-panneau: rgba(4, 6, 14, 0.88);
+  --app-entete: rgba(var(--k-accent-rgb), 0.06);
+  --app-bord: rgba(var(--k-accent-rgb), 0.38);
+  --app-ombre: 0 0 calc(30 * var(--u)) rgba(var(--k-accent-rgb), 0.18);
+  --menu-fond: rgba(6, 9, 18, 0.97);
+  --relief: 0 0 0 transparent;
+}
+
+html.kt[data-theme="brut"] {
+  --police: 'Barlow', 'Roboto', sans-serif;
+  --police-titre: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --casse: uppercase;
+  --texte: #F0F0F2;
+  --texte-2: rgba(240, 240, 242, 0.62);
+  --texte-3: rgba(240, 240, 242, 0.40);
+  --case-fond: rgba(255, 255, 255, 0.035);
+  --case-plein: rgba(255, 255, 255, 0.075);
+  --case-bord: rgba(255, 255, 255, 0.08);
+  --case-rayon: 0px;
+  --app-panneau: rgba(12, 12, 14, 0.95);
+  --app-entete: rgba(255, 255, 255, 0.02);
+  --app-bord: rgba(255, 255, 255, 0.09);
+  --app-ombre: inset 0 calc(4 * var(--u)) 0 var(--k-accent);
+  --menu-fond: rgba(12, 12, 14, 0.97);
+  --relief: 0 0 0 transparent;
+}
+
+html.kt[data-theme="clair"] {
+  --police: 'Manrope', 'Roboto', sans-serif;
+  --police-titre: 'Manrope', 'Roboto', sans-serif;
+  --casse: none;
+  --texte: #15171C;
+  --texte-2: rgba(21, 23, 28, 0.62);
+  --texte-3: rgba(21, 23, 28, 0.45);
+  --case-fond: rgba(255, 255, 255, 0.70);
+  --case-plein: rgba(255, 255, 255, 0.95);
+  --case-bord: rgba(0, 0, 0, 0.07);
+  --case-rayon: calc(8 * var(--u));
+  --app-panneau: rgba(240, 241, 245, 0.92);
+  --app-entete: rgba(255, 255, 255, 0.6);
+  --app-bord: rgba(0, 0, 0, 0.06);
+  --app-ombre: 0 calc(16 * var(--u)) calc(48 * var(--u)) rgba(0, 0, 0, 0.25);
+  --menu-fond: rgba(250, 250, 252, 0.98);
+  --relief: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --accent: var(--k-accent);
+}
+
+/* ---------- Base commune ---------- */
+
+html.kt body,
+html.kt button,
+html.kt input,
+html.kt span,
+html.kt p,
+html.kt small {
+  font-family: var(--police) !important;
+}
+
+/* Panneau flottant à droite */
+html.kt .sc-dhKdcB::before {
+  top: var(--marge);
+  width: calc(var(--panel-w) - var(--marge));
+  height: calc(100vh - 2 * var(--marge));
+  border: 1px solid var(--app-bord);
+  border-radius: calc(var(--rayon-k) + 6 * var(--u));
+  background:
+    linear-gradient(var(--app-entete), var(--app-entete)) top left / 100% calc(var(--pad) + var(--head) - 14 * var(--u)) no-repeat,
+    var(--app-panneau);
+  box-shadow: var(--app-ombre);
+}
+
+/* Grand titre « Apparence » avec le trait de couleur, comme les titres de l'inventaire */
+html.kt .sc-dhKdcB::after {
+  top: calc(var(--pad) + 34 * var(--u));
+  padding-left: calc(14 * var(--u));
+  border-left: calc(5 * var(--u)) solid var(--k-accent);
+  font-family: var(--police-titre);
+  font-size: calc(52 * var(--u));
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-transform: var(--casse);
+  color: var(--texte);
+}
+
+html.kt .sc-jlZhew::before {
+  font-family: var(--police) !important;
+  font-size: calc(12 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--texte-3);
+}
+
+/* Sections (Vêtements, Accessoires…) */
+html.kt .sc-gEvEer {
+  height: calc(54 * var(--u)) !important;
+  border: 0 !important;
+  border-radius: var(--rayon-k) !important;
+  background: var(--case-plein) !important;
+  box-shadow: var(--relief), inset calc(4 * var(--u)) 0 0 var(--k-accent) !important;
+  color: var(--texte) !important;
+}
+
+html.kt .sc-gEvEer:hover {
+  box-shadow: var(--relief), inset calc(4 * var(--u)) 0 0 var(--k-accent), inset 0 0 0 1px rgba(var(--k-accent-rgb), 0.6) !important;
+}
+
+html.kt .sc-gEvEer span {
+  font-family: var(--police-titre) !important;
+  font-size: calc(17 * var(--u)) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  text-transform: var(--casse);
+}
+
+/* Éléments (Masque, Veste…) : cartes comme les cases de l'inventaire */
+html.kt .sc-fqkvVR {
+  margin-top: calc(8 * var(--u)) !important;
+  padding: calc(16 * var(--u)) !important;
+  border: 0 !important;
+  border-radius: var(--rayon-k) !important;
+  background: var(--case-fond) !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord), var(--relief);
+}
+
+html.kt .sc-fqkvVR > span {
+  font-family: var(--police-titre) !important;
+  font-size: calc(15 * var(--u)) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  text-transform: var(--casse);
+  color: var(--texte) !important;
+}
+
+html.kt .sc-gsFSXq > span small,
+html.kt .sc-kAyceB > span small,
+html.kt .sc-iGgWBj > span small,
+html.kt .sc-imWYAI > span small,
+html.kt .sc-ikkxIA > span small {
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
+  color: var(--texte-3) !important;
+}
+
+html.kt .sc-gsFSXq > span small + small,
+html.kt .sc-kAyceB > span small + small {
+  color: var(--accent) !important;
+}
+
+/* Sélecteurs ‹ 24 › */
+html.kt .sc-gsFSXq > div {
+  border: 0 !important;
+  border-radius: calc(var(--case-rayon) * 1.2) !important;
+  background: var(--case-plein) !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord);
+}
+
+html.kt .sc-gsFSXq > div button {
+  background: transparent !important;
+  color: var(--texte-2) !important;
+}
+
+html.kt .sc-gsFSXq > div button:hover {
+  background: var(--k-accent) !important;
+  color: var(--k-sur-accent) !important;
+}
+
+html.kt .sc-gsFSXq > div input {
+  font-family: var(--police-titre) !important;
+  font-size: calc(20 * var(--u)) !important;
+  font-weight: 800 !important;
+  color: var(--texte) !important;
+}
+
+/* Curseurs */
+html.kt .sc-kAyceB input[type="range"] {
+  height: calc(4 * var(--u)) !important;
+  border-radius: 99vh !important;
+  background: var(--case-plein) !important;
+}
+
+html.kt .sc-kAyceB input[type="range"]::-webkit-slider-thumb {
+  width: calc(18 * var(--u)) !important;
+  height: calc(18 * var(--u)) !important;
+  border-radius: 50% !important;
+  background: var(--k-accent) !important;
+  box-shadow: 0 0 0 calc(3 * var(--u)) rgba(var(--k-accent-rgb), 0.25) !important;
+}
+
+html.kt .sc-kAyceB > div > small {
+  color: var(--texte-3) !important;
+}
+
+html.kt .sc-jXbUNg {
+  border-radius: calc(var(--case-rayon) * 0.6) !important;
+}
+
+/* Listes déroulantes */
+html.kt .sc-aXZVg [class*="__control"] {
+  border: 0 !important;
+  border-radius: calc(var(--case-rayon) * 1.2) !important;
+  background: var(--case-plein) !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord) !important;
+}
+
+html.kt .sc-aXZVg [class*="__control--is-focused"] {
+  box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--k-accent) !important;
+}
+
+html.kt .sc-aXZVg [class*="__single-value"],
+html.kt .sc-aXZVg [class*="__input"] input,
+html.kt .sc-aXZVg [class*="__placeholder"],
+html.kt .sc-aXZVg [class*="__option"] {
+  color: var(--texte) !important;
+}
+
+html.kt .sc-aXZVg [class*="__indicator"] {
+  color: var(--texte-3) !important;
+}
+
+html.kt .sc-aXZVg [class*="__menu"] {
+  border: 1px solid var(--case-bord) !important;
+  border-radius: calc(var(--case-rayon) * 1.2) !important;
+  background: var(--menu-fond) !important;
+  box-shadow: 0 calc(10 * var(--u)) calc(30 * var(--u)) rgba(0, 0, 0, 0.4) !important;
+}
+
+html.kt .sc-aXZVg [class*="__option--is-focused"] {
+  background: rgba(var(--k-accent-rgb), 0.18) !important;
+}
+
+html.kt .sc-aXZVg [class*="__option--is-selected"] {
+  background: var(--k-accent) !important;
+  color: var(--k-sur-accent) !important;
+}
+
+html.kt .sc-gFqAkR {
+  border: 0 !important;
+  border-radius: calc(var(--case-rayon) * 1.2) !important;
+  background-color: var(--case-plein) !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord), var(--relief);
+  color: var(--texte) !important;
+  font-family: var(--police-titre) !important;
+  text-transform: var(--casse);
+}
+
+html.kt .sc-gFqAkR:hover {
+  background-color: var(--k-accent) !important;
+  color: var(--k-sur-accent) !important;
+}
+
+/* Colonne d'outils (caméra, rotation) : comme la barre de filtres de l'inventaire */
+html.kt .sc-jlZhew {
+  padding: calc(6 * var(--u)) !important;
+  gap: calc(6 * var(--u));
+  border: 1px solid var(--app-bord);
+  border-radius: calc(var(--rayon-k) + 6 * var(--u));
+  background: var(--app-panneau);
+  box-shadow: var(--app-ombre);
+}
+
+html.kt .sc-jlZhew button,
+html.kt .sc-dLMFU {
+  border: 0 !important;
+  border-radius: var(--rayon-k) !important;
+  background: transparent !important;
+  color: var(--texte-2) !important;
+}
+
+html.kt .sc-jlZhew button:hover,
+html.kt .sc-cPiKLX:hover .sc-dLMFU {
+  background: var(--k-accent) !important;
+  color: var(--k-sur-accent) !important;
+}
+
+html.kt .sc-eDPEul::before {
+  border: 1px solid var(--app-bord);
+  border-radius: calc(var(--rayon-k) + 6 * var(--u));
+  background: var(--app-panneau);
+  box-shadow: var(--app-ombre);
+}
+
+/* Enregistrer / Annuler */
+html.kt .sc-jlZhew > .sc-cwHptR + .sc-jEACwC {
+  border-radius: var(--rayon-k) !important;
+  clip-path: none;
+  background: var(--k-accent) !important;
+  color: var(--k-sur-accent) !important;
+  box-shadow: 0 calc(8 * var(--u)) calc(22 * var(--u)) rgba(var(--k-accent-rgb), 0.35) !important;
+}
+
+html.kt .sc-jlZhew > .sc-cwHptR + .sc-jEACwC:hover {
+  background: var(--k-accent) !important;
+  filter: brightness(1.1);
+}
+
+html.kt .sc-jlZhew > .sc-cwHptR + .sc-jEACwC::after,
+html.kt .sc-jlZhew > .sc-cwHptR + .sc-jEACwC + .sc-jEACwC::after {
+  font-family: var(--police-titre);
+  font-size: calc(17 * var(--u));
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: var(--casse);
+}
+
+html.kt .sc-jlZhew > .sc-cwHptR + .sc-jEACwC + .sc-jEACwC {
+  border: 0 !important;
+  border-radius: var(--rayon-k) !important;
+  background: var(--case-plein) !important;
+  color: var(--texte) !important;
+  box-shadow: inset 0 0 0 1px var(--case-bord), var(--relief) !important;
+  filter: none;
+}
+
+html.kt .sc-jlZhew > .sc-cwHptR + .sc-jEACwC + .sc-jEACwC:hover {
+  box-shadow: inset 0 0 0 calc(2 * var(--u)) var(--k-accent) !important;
+}
+
+/* Fenêtre de confirmation */
+html.kt .sc-eldPxv {
+  background: var(--menu-fond) !important;
+  color: var(--texte) !important;
+}
+
+html.kt .sc-eldPxv > p {
+  font-family: var(--police-titre) !important;
+  font-weight: 800;
+  text-transform: var(--casse);
+  color: var(--texte);
+}
+
+html.kt .sc-eldPxv > p::after {
+  border-radius: 99vh;
+  background: var(--k-accent);
+}
+
+html.kt .sc-eldPxv > span {
+  color: var(--texte-2) !important;
+}
+
+html.kt .sc-fPXMVe button {
+  border: 0 !important;
+  border-radius: var(--rayon-k) !important;
+  background: var(--case-plein) !important;
+  color: var(--texte) !important;
+  font-family: var(--police-titre) !important;
+  font-size: calc(17 * var(--u)) !important;
+  text-transform: var(--casse);
+  box-shadow: inset 0 0 0 1px var(--case-bord), var(--relief);
+}
+
+html.kt .sc-fPXMVe button:first-child {
+  background: var(--k-accent) !important;
+  color: var(--k-sur-accent) !important;
+  clip-path: none;
+}
+
+/* Thème « liquide » : tout en pilule */
+html.kt[data-theme="liquide"] .sc-gsFSXq > div,
+html.kt[data-theme="liquide"] .sc-aXZVg [class*="__control"],
+html.kt[data-theme="liquide"] .sc-gFqAkR,
+html.kt[data-theme="liquide"] .sc-jlZhew > .sc-cwHptR + .sc-jEACwC,
+html.kt[data-theme="liquide"] .sc-jlZhew > .sc-cwHptR + .sc-jEACwC + .sc-jEACwC,
+html.kt[data-theme="liquide"] .sc-fPXMVe button,
+html.kt[data-theme="liquide"] .sc-jlZhew button,
+html.kt[data-theme="liquide"] .sc-dLMFU {
+  border-radius: 99vh !important;
+}
+
+/* Thème « clair » : texte sombre sur les boutons de couleur claire gérés par le script */
+html.kt[data-theme="clair"] .sc-eldPxv {
+  background: rgba(240, 241, 245, 0.96) !important;
+}
+
+/* Sécurité FiveM : pas de flou d'arrière-plan (blocs noirs) */
+html.kt *,
+html.kt *::before,
+html.kt *::after {
+  -webkit-backdrop-filter: none !important;
+          backdrop-filter: none !important;
+}
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script id="kirito-theme-script">
+      // Thème « Kirito » : reçoit le thème et la couleur envoyés par client.lua (server.cfg + choix du joueur)
+      (function () {
+        var racine = document.documentElement;
+        var THEMES = { ombre: '#4F8CFF', verre: '#7C9CFF', liquide: '#0A84FF', neon: '#22D3EE', brut: '#DC2626', clair: '#2563EB' };
+
+        function versRgb(hex) {
+          var m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+          if (!m) return null;
+          var n = parseInt(m[1], 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+        function versHex(rgb) {
+          return '#' + rgb.map(function (v) { return ('0' + Math.round(v).toString(16)).slice(-2); }).join('').toUpperCase();
+        }
+
+        function appliquer(d) {
+          d = d || {};
+          var nom = String(d.theme || '').toLowerCase().replace(/[\s_-]/g, '');
+          if (nom === 'liquid' || nom === 'liquidglass' || nom === 'glass') nom = 'liquide';
+          if (!THEMES[nom]) nom = 'ombre';
+          racine.setAttribute('data-theme', nom);
+
+          var rgb = versRgb(d.couleurJoueur) || versRgb(d.accent) || versRgb(THEMES[nom]);
+          var clair = rgb.map(function (v) { return v + (255 - v) * 0.35; });
+          var lum = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+          racine.style.setProperty('--k-accent', versHex(rgb));
+          racine.style.setProperty('--k-accent-rgb', rgb.join(', '));
+          racine.style.setProperty('--k-accent-clair', versHex(clair));
+          racine.style.setProperty('--k-sur-accent', lum > 0.62 ? '#111215' : '#FFFFFF');
+
+          var e = Math.min(1.4, Math.max(0.6, (Number(d.echelle) || 100) / 100));
+          racine.style.setProperty('--echelle', String(e));
+        }
+
+        window.addEventListener('message', function (ev) {
+          var m = ev.data;
+          if (m && m.action === 'kiritoTheme') appliquer(m.data);
+        });
+
+        appliquer({ theme: 'ombre' });
+      })();
+    </script>
+    
+</body>
+
+</html>
