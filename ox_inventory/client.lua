@@ -1149,12 +1149,73 @@ RegisterNetEvent('ox_inventory:removeDrop', function(dropId)
 	end
 end)
 
--- HUD cachée pendant que l'inventaire est ouvert (setr inventory:cacherhud "false" pour la garder).
--- Mini-carte : gérée ici. HUD d'une autre ressource (faim, soif...) : réglée dans server.cfg avec
---   setr inventory:hudexport "ressource:fonction"  -> appelle exports.ressource:fonction(visible)
---   setr inventory:hudevent  "nom:evenement"       -> TriggerEvent("nom:evenement", visible)
--- L'événement local « kirito:inventaire » (true = ouvert) est aussi envoyé pour les HUD faites maison.
+-- HUD cachée automatiquement pendant que l'inventaire est ouvert (setr inventory:cacherhud "false" pour la garder).
+--
+-- Sans aucun réglage :
+--   * toute la HUD de GTA est cachée (mini-carte, armes, argent, aide...), à chaque ouverture ;
+--   * l'événement local « kirito:inventaire » (true = ouvert) est envoyé ;
+--   * l'état LocalPlayer.state.invOpen (d'ox_inventory) passe à true : une HUD peut le lire.
+--   * esx_hud (HUD officielle d'ESX) est cachée elle aussi (liste HUD_CONNUES plus bas).
+-- HUD d'une autre ressource (faim, soif...) qui ne lit rien de tout ça : dans server.cfg, une ou plusieurs
+-- entrées séparées par des virgules :
+--   setr inventory:hudexport "ressource:fonction, autre:fonction"  -> exports.ressource:fonction(visible)
+--   setr inventory:hudevent  "nom:evenement, autre:evenement"      -> TriggerEvent("nom:evenement", visible)
 local hudCachee, jetonHud, radarAvant = false, 0, true
+
+local function entrees(convar)
+	local liste = {}
+	for morceau in GetConvar(convar, ''):gmatch('[^,]+') do
+		morceau = morceau:match('^%s*(.-)%s*$')
+		if morceau ~= '' then liste[#liste + 1] = morceau end
+	end
+	return liste
+end
+
+-- HUD connues, cachées sans aucun réglage si elles sont démarrées (export qui reçoit visible = true / false)
+local HUD_CONNUES = {
+	'esx_hud:HudToggle', -- HUD officielle d'ESX Legacy
+}
+
+local function exportsHud()
+	local liste, vu = {}, {}
+	for _, e in ipairs(HUD_CONNUES) do
+		if not vu[e] then vu[e] = true; liste[#liste + 1] = e end
+	end
+	for _, e in ipairs(entrees('inventory:hudexport')) do
+		if not vu[e] then vu[e] = true; liste[#liste + 1] = e end
+	end
+	return liste
+end
+
+local function prevenirHud(visible)
+	for _, export in ipairs(exportsHud()) do
+		local ressource, fonction = export:match('^([%w_%-]+):([%w_]+)$')
+		if ressource and GetResourceState(ressource) == 'started' then
+			local ok, err = pcall(function()
+				local r = exports[ressource]
+				r[fonction](r, visible)
+			end)
+			if not ok then print(('^3[ox_inventory] inventory:hudexport (%s) : %s^0'):format(export, err)) end
+		end
+	end
+
+	for _, evenement in ipairs(entrees('inventory:hudevent')) do
+		TriggerEvent(evenement, visible)
+	end
+
+	TriggerEvent('kirito:inventaire', not visible)
+end
+
+-- HUD de GTA : cachée image par image tant que l'inventaire est ouvert
+-- (une autre ressource ne peut donc pas la réafficher par-dessus)
+local function cacherHudJeu()
+	CreateThread(function()
+		while hudCachee do
+			HideHudAndRadarThisFrame()
+			Wait(0)
+		end
+	end)
+end
 
 local function afficherHud(visible)
 	if visible then
@@ -1162,22 +1223,9 @@ local function afficherHud(visible)
 	else
 		radarAvant = not IsRadarHidden()
 		DisplayRadar(false)
+		cacherHudJeu()
 	end
-
-	local export = GetConvar('inventory:hudexport', '')
-	local ressource, fonction = export:match('^%s*([%w_%-]+):([%w_]+)%s*$')
-	if ressource and GetResourceState(ressource) == 'started' then
-		local ok, err = pcall(function()
-			local r = exports[ressource]
-			r[fonction](r, visible)
-		end)
-		if not ok then print(('^3[ox_inventory] inventory:hudexport (%s) : %s^0'):format(export, err)) end
-	end
-
-	local evenement = GetConvar('inventory:hudevent', '')
-	if evenement ~= '' then TriggerEvent(evenement, visible) end
-
-	TriggerEvent('kirito:inventaire', not visible)
+	prevenirHud(visible)
 end
 
 local function hudSelonInventaire(ouvert)

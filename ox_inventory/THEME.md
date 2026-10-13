@@ -48,15 +48,23 @@ Le nouveau thème s'applique à la prochaine ouverture de l'inventaire, sans red
 
 #### Cacher la HUD quand l'inventaire est ouvert
 
+C'est **automatique**, à chaque ouverture de l'inventaire :
+
+- toute la HUD de GTA (mini-carte, armes, argent, aides...) est cachée tant que l'inventaire reste ouvert ;
+- l'événement client `kirito:inventaire` est envoyé (`true` = inventaire ouvert) ;
+- `LocalPlayer.state.invOpen` passe à `true`.
+- **esx_hud** (la HUD officielle d'ESX) est cachée elle aussi, sans réglage.
+
+Une HUD qui écoute l'un de ces deux derniers signaux se cache donc toute seule (**modern_hud** 2.1.1 le fait déjà).
+Pour une autre HUD (faim, soif...), indiquez son export ou son événement. Plusieurs HUD : séparez-les par des virgules.
+
 ```cfg
-setr inventory:cacherhud "true"                 # false : la HUD reste affichée
-setr inventory:hudexport "ma_hud:toggleHud"     # export de votre HUD qui l'affiche / la cache (reçoit true / false)
-setr inventory:hudevent  ""                     # ou un événement client de votre HUD (reçoit true / false)
+setr inventory:cacherhud "true"                              # false : la HUD reste affichée
+setr inventory:hudexport "ma_hud:toggleHud, autre_hud:show"   # exports.ma_hud:toggleHud(visible), ...
+setr inventory:hudevent  "ma_hud:client:toggle"              # TriggerEvent("ma_hud:client:toggle", visible)
 ```
 
-La mini-carte de GTA est cachée automatiquement. Les jauges (faim, soif…) viennent de votre ressource de HUD :
-indiquez son export ou son événement ci-dessus. Pour une HUD faite maison, écoutez l'événement client
-`kirito:inventaire` (true = inventaire ouvert). **modern_hud** le fait déjà (version 2.1.1) : rien à régler.
+`visible` vaut `false` à l'ouverture de l'inventaire et `true` à sa fermeture.
 
 ## Les 6 thèmes
 

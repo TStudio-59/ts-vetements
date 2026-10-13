@@ -1,6 +1,6 @@
 # cfx_ts_vetements — Vêtements en objets
 
-**Version 1.6.0** · ESX Legacy · ox_inventory · illenium-appearance · ox_lib
+**Version 1.6.1** · ESX Legacy · ox_inventory · illenium-appearance · ox_lib
 
 Chaque vêtement devient un **objet d'inventaire**. On le retire, on le range dans ses poches, on le donne, on le jette,
 on le met dans un coffre, puis on le remet sur soi. Une tenue complète peut aussi être rangée dans un seul objet.
@@ -154,7 +154,7 @@ cfx_ts_vetements d'annuler une action dont la sauvegarde a échoué. Voir `serve
 ### 5. Vérifier
 
 Redémarrez le serveur, connectez-vous et ouvrez la console **F8** : vous devez voir
-`[cfx_ts_vetements] version 1.6.0`. Si ce message n'apparaît pas, c'est une ancienne version qui tourne.
+`[cfx_ts_vetements] version 1.6.1`. Si ce message n'apparaît pas, c'est une ancienne version qui tourne.
 
 ---
 
@@ -277,7 +277,7 @@ exports.cfx_ts_vetements:utiliser(data, slot)
 **L'inventaire s'ouvre puis se referme tout seul, ou ne s'ouvre plus.**
 Une ancienne version (aperçu en mode « menu ») tourne encore. Supprimez le dossier `cfx_ts_vetements`
 (config comprise), remettez celui du pack, redémarrez, puis reconnectez-vous. Vérifiez le message
-`version 1.6.0` dans la console F8.
+`version 1.6.1` dans la console F8.
 
 **Le personnage n'est pas centré dans la Tenue, ou il est trop grand / trop petit.**
 Ajustez `Config.Apercu.Hauteur` (plus grand = personnage plus petit) et `Config.Apercu.ChampVision`.
@@ -329,6 +329,12 @@ En résumé : utilisez, modifiez et partagez gratuitement, en citant l'auteur. N
 ---
 
 ## Historique des versions
+
+**1.6.1**
+- HUD cachée automatiquement à chaque ouverture de l'inventaire : toute la HUD de GTA est masquée tant que
+  l'inventaire est ouvert, et `inventory:hudexport` / `inventory:hudevent` acceptent plusieurs HUD séparées par
+  des virgules (voir `ox_inventory/THEME.md`).
+- esx_hud (HUD officielle d'ESX) est cachée automatiquement, sans réglage.
 
 **1.6.0** (sécurité et nettoyage du pack)
 - ox_inventory mis à jour en **2.48.0 officielle** (le pack était basé sur la 2.47.9, affichée par erreur 2.48.4) :
