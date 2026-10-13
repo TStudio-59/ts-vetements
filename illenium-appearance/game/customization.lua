@@ -533,6 +533,79 @@ client.removeClothes = removeClothes
 local playerHeading
 function client.getHeading() return playerHeading end
 
+-- HUD cachée pendant le menu d'apparence (magasin, coiffeur, tatoueur, création du personnage).
+-- Mêmes règles et mêmes réglages server.cfg que l'inventaire (voir ox_inventory/THEME.md) :
+--   * toute la HUD de GTA est cachée tant que le menu est ouvert ;
+--   * esx_hud est cachée automatiquement ;
+--   * l'événement « kirito:inventaire » (true = caché) est envoyé, pour les HUD qui l'écoutent (modern_hud...) ;
+--   * setr inventory:hudexport / inventory:hudevent : autres HUD, séparées par des virgules ;
+--   * setr inventory:cacherhud "false" : la HUD reste affichée.
+local HUD_CONNUES = {
+    "esx_hud:HudToggle", -- HUD officielle d'ESX Legacy
+}
+
+local hudCachee, radarAvant = false, true
+
+local function entreesHud(convar)
+    local liste = {}
+    for morceau in GetConvar(convar, ""):gmatch("[^,]+") do
+        morceau = morceau:match("^%s*(.-)%s*$")
+        if morceau ~= "" then liste[#liste + 1] = morceau end
+    end
+    return liste
+end
+
+local function prevenirHud(visible)
+    local vu = {}
+    local exportsHud = {}
+    for _, e in ipairs(HUD_CONNUES) do
+        if not vu[e] then vu[e] = true; exportsHud[#exportsHud + 1] = e end
+    end
+    for _, e in ipairs(entreesHud("inventory:hudexport")) do
+        if not vu[e] then vu[e] = true; exportsHud[#exportsHud + 1] = e end
+    end
+
+    for _, export in ipairs(exportsHud) do
+        local ressource, fonction = export:match("^([%w_%-]+):([%w_]+)$")
+        if ressource and GetResourceState(ressource) == "started" then
+            local ok, err = pcall(function()
+                local r = exports[ressource]
+                r[fonction](r, visible)
+            end)
+            if not ok then print(("^3[illenium-appearance] inventory:hudexport (%s) : %s^0"):format(export, err)) end
+        end
+    end
+
+    for _, evenement in ipairs(entreesHud("inventory:hudevent")) do
+        TriggerEvent(evenement, visible)
+    end
+
+    TriggerEvent("kirito:inventaire", not visible)
+end
+
+local function cacherHud(cacher)
+    if GetConvar("inventory:cacherhud", "true") == "false" then return end
+
+    if cacher then
+        if hudCachee then return end
+        hudCachee = true
+        radarAvant = not IsRadarHidden()
+        DisplayRadar(false)
+        prevenirHud(false)
+        -- HUD de GTA cachée image par image tant que le menu est ouvert
+        CreateThread(function()
+            while hudCachee do
+                HideHudAndRadarThisFrame()
+                Wait(0)
+            end
+        end)
+    elseif hudCachee then
+        hudCachee = false
+        DisplayRadar(radarAvant)
+        prevenirHud(true)
+    end
+end
+
 local callback
 function client.startPlayerCustomization(cb, conf)
     repeat Wait(0) until IsScreenFadedIn() and not IsPlayerTeleportActive() and not IsPlayerSwitchInProgress()
@@ -556,6 +629,7 @@ function client.startPlayerCustomization(cb, conf)
     TaskStandStill(cache.ped, -1)
 
     if Config.HideRadar then DisplayRadar(false) end
+    cacherHud(true)
 
     -- Thème « Kirito » : mêmes réglages server.cfg que l'inventaire (setr inventory:theme / accent / echelle)
     -- et couleur choisie par le joueur dans l'inventaire, si les joueurs ont le droit d'en choisir une.
@@ -588,6 +662,7 @@ function client.exitPlayerCustomization(appearance)
     SetNuiFocus(false, false)
 
     if Config.HideRadar then DisplayRadar(true) end
+    cacherHud(false)
 
     ClearPedTasksImmediately(cache.ped)
     SetEntityInvincible(cache.ped, false)
@@ -624,6 +699,7 @@ AddEventHandler("onResourceStop", function(resource)
     if resource == GetCurrentResourceName() then
         SetNuiFocus(false, false)
         SetNuiFocusKeepInput(false)
+        cacherHud(false) -- ressource arrêtée menu ouvert : on rend la HUD
     end
 end)
 

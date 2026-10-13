@@ -24,7 +24,7 @@ licence MIT (voir `LICENSE`).
 | `server/framework/esx/main.lua` | `SaveAppearance` renvoie le résultat ; apparence vide (nouveau personnage) gérée sans erreur. |
 | `server/database/managementoutfits.lua` | `GetByID` (contrôle des tenues de métier). |
 | `client/client.lua` | Achat en magasin par `purchaseClothingItems`, menu « Enregistrer ma tenue » / « Retirer ma tenue » en objets. |
-| `game/customization.lua` | Envoi du thème de l'inventaire à l'interface. |
+| `game/customization.lua` | Envoi du thème de l'inventaire à l'interface ; HUD cachée pendant le menu d'apparence. |
 | `web/dist/index.html`, `shared/theme.lua` | Thèmes (voir `THEME.md`). Le code compilé n'est pas modifié. |
 | `locales/fr.lua` | Traductions corrigées (« Modèle », « Accessoires », « Tatouages »…). |
-| `shared/config.lua` | Noms des blips en français. |
+| `shared/config.lua` | Noms des blips en français ; section « Ped » cachée à la création du personnage. |

@@ -4,7 +4,7 @@ lua54 'yes'
 
 name 'cfx_ts_vetements'
 description 'Vêtements en objets pour ox_inventory et illenium-appearance'
-version '1.6.1'
+version '1.6.2'
 
 shared_scripts {
     '@ox_lib/init.lua',

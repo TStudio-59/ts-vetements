@@ -4,7 +4,7 @@
 on le donne, on le met dans un coffre, puis on le remet. Panneau « Tenue » en glisser-déposer dans l'inventaire,
 aperçu du personnage en direct et 6 thèmes d'interface.
 
-**Version 1.6.1** · ESX Legacy · ox_inventory 2.48.0 · illenium-appearance 5.7.0 · ox_lib
+**Version 1.6.2** · ESX Legacy · ox_inventory 2.48.0 · illenium-appearance 5.7.0 · ox_lib
 
 ## Contenu du dépôt
 
@@ -20,6 +20,9 @@ aperçu du personnage en direct et 6 thèmes d'interface.
 2. Dans `server.cfg` :
 
 ```cfg
+setr ox:locale "fr"
+setr illenium-appearance:locale "fr"
+
 ensure ox_lib
 ensure es_extended
 ensure ox_inventory
@@ -27,7 +30,7 @@ ensure illenium-appearance
 ensure cfx_ts_vetements
 ```
 
-3. Redémarrez et vérifiez `[cfx_ts_vetements] version 1.6.1` dans la console F8.
+3. Redémarrez et vérifiez `[cfx_ts_vetements] version 1.6.2` dans la console F8.
 
 Documentation complète : [`cfx_ts_vetements/README.md`](cfx_ts_vetements/README.md).
 Thèmes de l'interface : [`ox_inventory/THEME.md`](ox_inventory/THEME.md).

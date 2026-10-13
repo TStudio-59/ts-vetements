@@ -51,7 +51,7 @@ Config.TrackerClothingOptions = {
 }
 
 Config.NewCharacterSections = {
-    Ped = true,
+    Ped = false, -- cfx_ts_vetements : seuls les personnages GTA Online (homme / femme) portent les vêtements en objets
     HeadBlend = true,
     FaceFeatures = true,
     HeadOverlays = true,

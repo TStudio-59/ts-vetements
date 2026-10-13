@@ -13,11 +13,19 @@ setr inventory:couleurlibre "true" # la couleur choisie par le joueur dans l'inv
 Changer de thème dans la console du serveur (`setr inventory:theme "liquide"`) s'applique à la prochaine
 ouverture du menu, sans redémarrage.
 
+## HUD cachée pendant le menu
+
+Quand le menu d'apparence est ouvert (magasin de vêtements, coiffeur, tatoueur, création du personnage), la HUD est
+cachée avec les mêmes règles que l'inventaire : toute la HUD de GTA, **esx_hud** automatiquement, les HUD qui écoutent
+`kirito:inventaire`, et celles indiquées dans `inventory:hudexport` / `inventory:hudevent`
+(voir `ox_inventory/THEME.md`). `setr inventory:cacherhud "false"` la laisse affichée.
+
 ## Fichiers modifiés
 
 - `web/dist/index.html` : polices, bloc `<style id="kirito-theme">` (les 6 thèmes) et script `kirito-theme-script`.
   La base de mise en page (panneau à droite, colonne d'outils à gauche) reste le bloc `<style id="da-circuit">`.
-- `game/customization.lua` : à l'ouverture du menu, envoi du thème à l'interface (repère « Thème « Kirito » »).
+- `game/customization.lua` : à l'ouverture du menu, envoi du thème à l'interface (repère « Thème « Kirito » ») ;
+  HUD cachée pendant le menu (`cacherHud`).
 - `client/client.lua` : menu des tenues en objets (voir cfx_ts_vetements).
 
 La couleur du joueur est gardée par ox_inventory (`exports.ox_inventory:couleurJoueur()`).
